@@ -25,7 +25,7 @@ public sealed class AssemblyScanner
         Assembly assembly = await LoadAssembly(TargetAssemblyPath);
     }
 
-    private async Task<Assembly> LoadAssembly(string assemblyPath)
+    private static async Task<Assembly> LoadAssembly(string assemblyPath)
     {
         try
         {

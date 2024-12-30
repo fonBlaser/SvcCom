@@ -1,4 +1,4 @@
-﻿namespace SvcCom.SampleWiki.Engine;
+﻿namespace SvcCom.Samples.SampleWiki.Engine;
 
 public interface IEngineInfo
 {

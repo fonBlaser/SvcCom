@@ -1,6 +1,6 @@
-﻿using SvcCom.SampleWiki.Engine;
+﻿using SvcCom.Samples.SampleWiki.Engine;
 
-namespace SvcCom.SampleWiki;
+namespace SvcCom.Samples.SampleWiki;
 
 public interface IWiki
 {
