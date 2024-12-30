@@ -1,0 +1,12 @@
+<Project>
+    <PropertyGroup>
+        <AssemblyProduct>SvcCom</AssemblyProduct>
+        <FileVersion>1.0.5.11</FileVersion>
+        <AssemblyVersion>1.0.5.11</AssemblyVersion>
+        <InformationalVersion>1.0.5.11</InformationalVersion>
+        <PackageVersion>1.0.5</PackageVersion>
+        <Authors>Eugene Yakush</Authors>
+        <Company>Eugene Yakush</Company>
+    </PropertyGroup>
+</Project>
+  
