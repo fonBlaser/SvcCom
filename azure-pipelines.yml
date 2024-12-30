@@ -1,0 +1,42 @@
+trigger:
+  branches:
+    include:
+      - master
+pool:
+    vmImage: ubuntu-latest
+
+variables:
+  buildConfiguration: 'Release'
+
+jobs:
+  - job: Package
+    displayName: 'Deploy Package'
+    steps:
+      - task: NuGetAuthenticate@1
+        displayName: 'NuGet Auth'        
+      - task: DotNetCoreCLI@2
+        displayName: 'DotNet Build'
+        inputs:
+          command: 'build'
+          workingDirectory: 'Source'
+          arguments: '--configuration $(buildConfiguration)'
+      - task: DotNetCoreCLI@2
+        displayName: 'DotNet Test'
+        inputs:
+          command: 'test'
+          workingDirectory: 'Source'
+          arguments: '--no-build --configuration $(buildConfiguration)'
+      - task: DotNetCoreCLI@2
+        displayName: 'NuGet Pack'
+        inputs:
+          command: 'pack'
+          arguments: '--no-build --configuration $(buildConfiguration)'
+          workingDirectory: 'Source'
+      - task: NuGetCommand@2
+        displayName: 'NuGet Push'
+        inputs:
+              command: 'push'
+              packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.nupkg;!$(Build.ArtifactStagingDirectory)/**/*.symbols.nupkg'
+              nuGetFeedType: 'internal'
+              publishVstsFeed: 'TSW/TSWFeed'
+              allowPackageConflicts: true
