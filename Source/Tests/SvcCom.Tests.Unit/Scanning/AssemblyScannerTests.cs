@@ -18,7 +18,7 @@ public class AssemblyScannerTests : TestBase
     }
 
     [Fact]
-    public void AssemblyScannerConstructor_WithExistingAssemblyPath_ThrowsException()
+    public void AssemblyScannerConstructor_WithExistingAssemblyPath_CreatesDefaultConfig()
     {
         AssemblyScanner scanner = new(TargetAssemblyPath, null);
 
