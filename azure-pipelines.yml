@@ -4,6 +4,12 @@ trigger:
       - master
     exclude:
       - refs/pull/*
+
+pr:
+  branches:
+    exclude:
+      - '*'
+
 pool:
     vmImage: ubuntu-latest
 
