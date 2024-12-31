@@ -20,10 +20,10 @@ jobs:
         dotnet-version: 8.0.x
     - name: Restore dependencies
       working-directory: ./Source
-      run: dotnet restore
+      run: dotnet restore SvcCom.sln
     - name: Build
       working-directory: ./Source
-      run: dotnet build --no-restore
+      run: dotnet build SvcCom.sln --no-restore
     - name: Test
       working-directory: ./Source
-      run: dotnet test --no-build --verbosity normal
+      run: dotnet test SvcCom.sln --no-build --verbosity normal
