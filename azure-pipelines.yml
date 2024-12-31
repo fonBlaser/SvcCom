@@ -2,6 +2,14 @@ trigger:
   branches:
     include:
       - master
+    exclude:
+      - refs/pull/*
+
+pr:
+  branches:
+    exclude:
+      - '*'
+
 pool:
     vmImage: ubuntu-latest
 
