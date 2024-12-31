@@ -5,7 +5,7 @@
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <AssemblyName>svccom</AssemblyName>
+    <AssemblyName>svcc</AssemblyName>
     <PackAsTool>True</PackAsTool>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
   </PropertyGroup>
