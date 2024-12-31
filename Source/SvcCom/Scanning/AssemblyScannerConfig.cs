@@ -1,8 +1,8 @@
-﻿using System.Xml;
+﻿namespace SvcCom.Scanning;
 
-namespace SvcCom.Scanning;
-
-public record AssemblyScannerConfig(bool InterfacePropertiesAreServices = false)
+public record AssemblyScannerConfig(
+    bool InterfacePropertiesAreServices = false
+    )
 {
     public static readonly AssemblyScannerConfig Default = new();
 }

@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 using SvcCom.Exceptions;
+using SvcCom.Schemas;
 
 namespace SvcCom.Scanning;
 
@@ -20,9 +21,10 @@ public sealed class AssemblyScanner
         Config = config ?? AssemblyScannerConfig.Default;
     }
 
-    public async Task Scan()
+    public async Task<AssemblySchema> Scan(ScanTarget target)
     {
         Assembly assembly = await LoadAssembly(TargetAssemblyPath);
+        return new AssemblySchema();
     }
 
     private static async Task<Assembly> LoadAssembly(string assemblyPath)
