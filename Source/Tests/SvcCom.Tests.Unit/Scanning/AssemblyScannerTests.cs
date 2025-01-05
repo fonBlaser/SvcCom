@@ -59,7 +59,7 @@ public class AssemblyScannerTests : TestBase
     [Fact]
     public async Task ScanValidAssembly_WithOneSpecifiedService_ReturnsSchemaWithSpecifiedType()
     {
-        AssemblyScanner scanner = new(TargetAssemblyPath, new(InterfacePropertiesAreServices: true));
+        AssemblyScanner scanner = new(TargetAssemblyPath, new(InterfacePropertiesAreServices: false));
         string rootServiceFullName = "SvcCom.Samples.SampleWiki.IWiki";
 
         ScanTarget target = new(RootServices:
@@ -72,5 +72,25 @@ public class AssemblyScannerTests : TestBase
         Assert.Contains(schema.TypeRegistry.Entries, type => type.Schema?.Namespace + "." + type.Schema?.Name == rootServiceFullName);
         Assert.NotEmpty(schema.RootServices);
         Assert.Contains(schema.RootServices, service => service.Schema?.Namespace + "." + service.Schema?.Name == rootServiceFullName);
+    }
+
+    [Fact]
+    public async Task ScanValidAssembly_WithOneSpecifiedService_ReturnsSchemaWithNoOtherServices()
+    {
+        AssemblyScanner scanner = new(TargetAssemblyPath, new(InterfacePropertiesAreServices: false));
+        string rootServiceFullName = "SvcCom.Samples.SampleWiki.IWiki";
+        string otherServiceFullName = "SvcCom.Samples.SampleWiki.Engine.IEngineInfo";
+
+        ScanTarget target = new(RootServices:
+            [new ScanTargetService(rootServiceFullName)]
+        );
+        AssemblySchema schema = await scanner.Scan(target);
+
+        Assert.NotNull(schema);
+        Assert.NotEmpty(schema.TypeRegistry.Entries);
+        Assert.DoesNotContain(schema.RootServices, service => service.TypeFullName == otherServiceFullName);
+        Assert.DoesNotContain(schema.RootServices, service => service.Schema?.Namespace + "." + service.Schema?.Name == otherServiceFullName);
+        Assert.DoesNotContain(schema.TypeRegistry.Entries, type => type.TypeFullName == otherServiceFullName);
+        Assert.DoesNotContain(schema.TypeRegistry.Entries, type => type.Schema?.Namespace + "." + type.Schema?.Name == otherServiceFullName);
     }
 }
