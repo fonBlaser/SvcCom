@@ -52,7 +52,8 @@ public class AssemblyScannerTests : TestBase
         AssemblySchema schema = await scanner.Scan(target);
 
         Assert.NotNull(schema);
-        Assert.Empty(schema.Types);
+        Assert.Empty(schema.TypeRegistry.Entries);
+        Assert.Empty(schema.RootServices);
     }
 
     [Fact]
@@ -67,7 +68,9 @@ public class AssemblyScannerTests : TestBase
         AssemblySchema schema = await scanner.Scan(target);
 
         Assert.NotNull(schema);
-        Assert.NotEmpty(schema.Types);
-        Assert.Contains(schema.Types, type => type.Namespace + type.Name == rootServiceFullName);
+        Assert.NotEmpty(schema.TypeRegistry.Entries);
+        Assert.Contains(schema.TypeRegistry.Entries, type => type.Schema?.Namespace + "." + type.Schema?.Name == rootServiceFullName);
+        Assert.NotEmpty(schema.RootServices);
+        Assert.Contains(schema.RootServices, service => service.Schema?.Namespace + "." + service.Schema?.Name == rootServiceFullName);
     }
 }
