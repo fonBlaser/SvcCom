@@ -2,6 +2,9 @@
 
 public interface IEngineInfo
 {
+    public Version? Version { get; }
+    public string StatusLabel { get; }
+
     public void ThrowIfError();
     public Task ThrowIfErrorAsync();
 

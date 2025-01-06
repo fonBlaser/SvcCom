@@ -56,7 +56,7 @@ public sealed class AssemblyScanner
 
             if(!typeRegistryEntry.Scanned)
             {
-                TypeSchema serviceSchema = await ScanTypeSchema(rootServiceType, ctx);
+                TypeSchema serviceSchema = await ScanTypeSchema(rootServiceType, target, ctx);
                 typeRegistryEntry.SetSchema(serviceSchema);
             }
 
@@ -64,9 +64,10 @@ public sealed class AssemblyScanner
         }
     }
 
-    private async Task<TypeSchema> ScanTypeSchema(Type serviceType, CancellationToken ctx = default)
+    private async Task<TypeSchema> ScanTypeSchema(Type serviceType, ScanTarget target, CancellationToken ctx = default)
     {
         TypeSchema schema = new(serviceType);
+
         return schema;
     }
 
