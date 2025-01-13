@@ -21,9 +21,9 @@
     </ItemGroup>
 
     <ItemGroup>
-        <None Update="xunit.runner.json">
-            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </None>
+      <Content Include="..\SvcCom.Tests.Unit\xunit.runner.json">
+        <Link>xunit.runner.json</Link>
+      </Content>
     </ItemGroup>
 
 </Project>

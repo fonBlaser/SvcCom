@@ -1,25 +1,12 @@
-﻿using Xunit;
+using Xunit;
 
-namespace SvcCom.Tests.Unit.Isolated;
+namespace SvcCom.Tests.Unit;
 
 public abstract class TestBase : IDisposable
 {
     protected string CurrentTestId { get; }
     protected string CurrentTestDirectory { get; }
-
-    private string Configuration
-#if DEBUG
-        => "Debug";
-#else
-        => "Release";
-#endif
-
-    protected virtual string TargetAssemblyName 
-        => "SvcCom.Samples.SampleWiki";
-
-    protected string TargetAssemblyPath
-        => Path.Combine(Directory.GetCurrentDirectory(), $"../../../../../Samples/{TargetAssemblyName}/bin/{Configuration}/net8.0/{TargetAssemblyName}.dll");
-
+    
     protected TestBase()
     {
         CurrentTestId = Guid.NewGuid().ToString("D");
