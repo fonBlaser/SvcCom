@@ -17,7 +17,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\..\SvcCom\SvcCom.csproj" />
+        <ProjectReference Include="..\SvcCom.Tests.Unit\SvcCom.Tests.Unit.csproj" />
     </ItemGroup>
 
     <ItemGroup>

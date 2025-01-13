@@ -1,4 +1,6 @@
-﻿namespace SvcCom.Tests.Unit;
+﻿using Xunit;
+
+namespace SvcCom.Tests.Unit.Isolated;
 
 public abstract class TestBase : IDisposable
 {
