@@ -4,9 +4,9 @@ public interface IHealthCheckService
 {
     public bool IsHealthy { get; }
     
-    public void ThrowIfError();
-    public Task ThrowIfErrorAsync();
-
     public bool IsAlive();
     public Task<bool> IsAliveAsync();
+    
+    public void ThrowIfError();
+    public Task ThrowIfErrorAsync();
 }
