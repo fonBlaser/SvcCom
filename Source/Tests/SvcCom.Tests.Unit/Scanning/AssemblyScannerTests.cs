@@ -7,6 +7,13 @@ namespace SvcCom.Tests.Unit.Scanning;
 [Trait("Category", "Unit")]
 public abstract class AssemblyScannerTests : TestBase
 {
+    private string CorruptedAssemblyPath => Path.Combine(CurrentTestDirectory, "CorruptedAssembly.dll");
+
+    protected AssemblyScannerTests()
+    {
+        File.WriteAllBytes(CorruptedAssemblyPath, new byte[] { 0x00, 0x01, 0x02, 0x03 });
+    }
+    
     [Fact]
     public void AssemblyScanner_ThrowsException_WhenAssemblyIsNotFound()
     {
@@ -21,5 +28,13 @@ public abstract class AssemblyScannerTests : TestBase
         string existentAssembly = ExistentAssemblyPath;
         
         Assert.Null(Record.Exception(() => new AssemblyScanner(existentAssembly)));
+    }
+    
+    [Fact]
+    public void AssemblyScanner_ThrowsException_WhenAssemblyIsCorrupted()
+    {
+        string corruptedAssembly = CorruptedAssemblyPath;
+        
+        Assert.ThrowsAny<AssemblyLoadException>(() => new AssemblyScanner(corruptedAssembly));
     }
 }
