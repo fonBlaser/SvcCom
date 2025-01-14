@@ -1,7 +1,7 @@
 using System.Reflection;
 using SvcCom.Exceptions;
 
-namespace SvcCom.Scnning;
+namespace SvcCom.Scanning;
 
 public class AssemblyScanner
 {

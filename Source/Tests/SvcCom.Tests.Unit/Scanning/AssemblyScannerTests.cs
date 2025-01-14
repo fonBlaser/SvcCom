@@ -1,5 +1,5 @@
 using SvcCom.Exceptions;
-using SvcCom.Scnning;
+using SvcCom.Scanning;
 using Xunit;
 
 namespace SvcCom.Tests.Unit.Scanning;
