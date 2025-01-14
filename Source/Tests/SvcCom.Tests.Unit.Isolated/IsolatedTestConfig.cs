@@ -2,7 +2,7 @@
 
 namespace SvcCom.Tests.Unit.Isolated;
 
-internal static class IsolatedTestConfig
+internal record IsolatedTestConfig : TestConfig
 {
     private static string Configuration
 #if DEBUG
@@ -11,9 +11,9 @@ internal static class IsolatedTestConfig
         => "Release";
 #endif
 
-    internal static string TargetAssemblyName 
-        => "SvcCom.Samples.SampleWiki";
-
-    internal static string TargetAssemblyPath
-        => Path.Combine(Directory.GetCurrentDirectory(), $"../../../../../Samples/{TargetAssemblyName}/bin/{Configuration}/net8.0/{TargetAssemblyName}.dll");
+    public IsolatedTestConfig()
+    {
+        TargetAssemblyName = "SvcCom.Samples.SampleWiki";
+        TargetAssemblyPath = Path.Combine(Directory.GetCurrentDirectory(), $"../../../../../Samples/{TargetAssemblyName}/bin/{Configuration}/net8.0/{TargetAssemblyName}.dll");
+    }
 }

@@ -7,9 +7,6 @@ namespace SvcCom.Tests.Unit.Scanning;
 [Trait("Category", "Unit")]
 public abstract class AssemblyScannerTests : TestBase
 {
-    protected abstract string ExistentAssemblyPath { get; }
-    protected abstract string NonExistentAssemblyPath { get; }
-    
     [Fact]
     public void AssemblyScanner_ThrowsException_WhenAssemblyIsNotFound()
     {

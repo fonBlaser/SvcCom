@@ -2,11 +2,11 @@ using SvcCom.Samples.SampleWiki;
 
 namespace SvcCom.Tests.Unit.Referenced;
 
-public class ReferencedTestConfig
+public record ReferencedTestConfig : TestConfig
 {
-    internal static string TargetAssemblyName
-        => typeof(IWiki).Assembly.GetName().Name ?? string.Empty;
-
-    internal static string TargetAssemblyPath
-        => typeof(IWiki).Assembly.Location;
+    public ReferencedTestConfig()
+    {
+        TargetAssemblyName = typeof(IWiki).Assembly.GetName().Name ?? string.Empty;
+        TargetAssemblyPath = typeof(IWiki).Assembly.Location;
+    }
 }

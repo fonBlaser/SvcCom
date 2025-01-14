@@ -6,6 +6,10 @@ public abstract class TestBase : IDisposable
 {
     protected string CurrentTestId { get; }
     protected string CurrentTestDirectory { get; }
+    protected TestConfig Config => GetConfig();
+    protected string ExistentAssemblyPath => Config.TargetAssemblyPath;
+    protected string NonExistentAssemblyPath => Config.TargetAssemblyPath + ".random.ext";
+    
     
     protected TestBase()
     {
@@ -23,4 +27,6 @@ public abstract class TestBase : IDisposable
         Directory.Delete(CurrentTestDirectory, recursive: true);
         Assert.False(Directory.Exists(CurrentTestDirectory));
     }
+    
+    protected abstract TestConfig GetConfig();
 }
