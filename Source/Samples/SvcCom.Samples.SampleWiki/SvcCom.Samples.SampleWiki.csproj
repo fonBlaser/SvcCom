@@ -8,4 +8,8 @@
     <IsPackable>false</IsPackable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\SvcCom.Samples.SampleWiki.Dtos\SvcCom.Samples.SampleWiki.Dtos.csproj" />
+  </ItemGroup>
+
 </Project>

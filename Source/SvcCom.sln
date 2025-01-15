@@ -27,6 +27,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SvcCom.Tests.Unit.Reference
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SvcCom.Tests.Unit", "Tests\SvcCom.Tests.Unit\SvcCom.Tests.Unit.csproj", "{1495A009-CB20-4DAA-A429-B68777ABBDE9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SvcCom.Samples.SampleWiki.Dtos", "Samples\SvcCom.Samples.SampleWiki.Dtos\SvcCom.Samples.SampleWiki.Dtos.csproj", "{BEF41F09-FE54-485C-8215-6D0C8EE7C755}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -57,6 +59,10 @@ Global
 		{1495A009-CB20-4DAA-A429-B68777ABBDE9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1495A009-CB20-4DAA-A429-B68777ABBDE9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1495A009-CB20-4DAA-A429-B68777ABBDE9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BEF41F09-FE54-485C-8215-6D0C8EE7C755}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BEF41F09-FE54-485C-8215-6D0C8EE7C755}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BEF41F09-FE54-485C-8215-6D0C8EE7C755}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BEF41F09-FE54-485C-8215-6D0C8EE7C755}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -66,6 +72,7 @@ Global
 		{7942CB0E-44DA-49AD-922D-0B3E251396D6} = {B4751932-B1E4-48FB-BEAB-9AF726F46443}
 		{F40B0673-D124-4E6C-910B-4180734A77FD} = {6420F595-C32D-4D2F-995D-98E45CC56776}
 		{1495A009-CB20-4DAA-A429-B68777ABBDE9} = {6420F595-C32D-4D2F-995D-98E45CC56776}
+		{BEF41F09-FE54-485C-8215-6D0C8EE7C755} = {B4751932-B1E4-48FB-BEAB-9AF726F46443}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {20DBFAF7-0580-44C9-B5C5-E10E1C83A3F1}

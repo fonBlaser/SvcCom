@@ -6,8 +6,8 @@ public abstract class TestBase : IDisposable
 {
     protected string CurrentTestId { get; }
     protected string CurrentTestDirectory { get; }
-    protected TestConfig Config => GetConfig();
-    protected string ExistentAssemblyPath => Config.TargetAssemblyPath;
+    protected string AdditionalAssembliesDirectory => Path.Combine(CurrentTestDirectory, "AdditionalAssemblies");
+    protected abstract TestConfigBuilder ConfigBuilder { get; }
     
     protected TestBase()
     {
@@ -16,6 +16,9 @@ public abstract class TestBase : IDisposable
 
         if(!Directory.Exists(CurrentTestDirectory))
             Directory.CreateDirectory(CurrentTestDirectory);
+        
+        if(!Directory.Exists(AdditionalAssembliesDirectory))
+            Directory.CreateDirectory(AdditionalAssembliesDirectory);
 
         Assert.True(Directory.Exists(CurrentTestDirectory));
     }
@@ -25,6 +28,4 @@ public abstract class TestBase : IDisposable
         Directory.Delete(CurrentTestDirectory, recursive: true);
         Assert.False(Directory.Exists(CurrentTestDirectory));
     }
-    
-    protected abstract TestConfig GetConfig();
 }
