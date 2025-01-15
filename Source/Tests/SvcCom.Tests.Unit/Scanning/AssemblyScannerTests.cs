@@ -8,7 +8,8 @@ namespace SvcCom.Tests.Unit.Scanning;
 public abstract class AssemblyScannerTests : TestBase
 {
     private string CorruptedAssemblyPath => Path.Combine(CurrentTestDirectory, "CorruptedAssembly.dll");
-
+    private string NonExistentAssemblyPath => Config.TargetAssemblyPath + ".random.ext";
+    
     protected AssemblyScannerTests()
     {
         File.WriteAllBytes(CorruptedAssemblyPath, new byte[] { 0x00, 0x01, 0x02, 0x03 });

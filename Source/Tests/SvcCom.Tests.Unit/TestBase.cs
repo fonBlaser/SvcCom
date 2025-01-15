@@ -8,8 +8,6 @@ public abstract class TestBase : IDisposable
     protected string CurrentTestDirectory { get; }
     protected TestConfig Config => GetConfig();
     protected string ExistentAssemblyPath => Config.TargetAssemblyPath;
-    protected string NonExistentAssemblyPath => Config.TargetAssemblyPath + ".random.ext";
-    
     
     protected TestBase()
     {
