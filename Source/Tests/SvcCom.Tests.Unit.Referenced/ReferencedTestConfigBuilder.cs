@@ -19,57 +19,42 @@ public class ReferencedTestConfigBuilder : TestConfigBuilder
         => throw new NotSupportedException("Cannot add corrupted assembly in referenced mode.");
 
     public override TestConfigBuilder AddMainAssembly()
-    {
-        _config = _config with
-        {
-            Assemblies = _config.Assemblies
-                               .Union(new[] { typeof(IWiki).Assembly })
-                               .ToArray()
-        };
-
-        return this;
-    }
+        => AddAssembly(typeof(IWiki).Assembly);
     
     public override TestConfigBuilder AddDtoAssembly()
+        => AddAssembly(typeof(IDataConverterService).Assembly);
+    
+    public override TestConfigBuilder AddNonExistentRootService()
+        => throw new NotSupportedException("Cannot add non-existent root service in referenced mode.");
+
+    public override TestConfigBuilder AddMainRootService()
+        => AddRootService("MainRootService", typeof(IWiki));
+
+    public override TestConfigBuilder AddDtoRootService()
+        => AddRootService("DtoRootService", typeof(IDataConverterService));
+    
+    private TestConfigBuilder AddAssembly(Assembly assembly)
     {
         _config = _config with
         {
             Assemblies = _config.Assemblies
-                .Union(new[] { typeof(IDataConverterService).Assembly })
+                .Union(new[] { assembly })
                 .ToArray()
         };
 
         return this;
     }
     
-    public override TestConfigBuilder AddNonExistentRootService()
-        => throw new NotSupportedException("Cannot add non-existent root service in referenced mode.");
-
-    public override TestConfigBuilder AddMainRootService()
+    private TestConfigBuilder AddRootService(string key, Type type)
     {
         _config = _config with
         {
             RootServiceTypes = _config.RootServiceTypes
                 .Union(new Dictionary<string, Type>
                 {
-                    { "MainRootService", typeof(IWiki) }
+                    { key, type }
                 })
                 .ToDictionary(kv => kv.Key, kv => kv.Value) 
-        };
-
-        return this;
-    }
-    
-    public override TestConfigBuilder AddDtoRootService()
-    {
-        _config = _config with
-        {
-            RootServiceTypes = _config.RootServiceTypes
-                                    .Union(new Dictionary<string, Type>
-                                    {
-                                        { "DtoRootService", typeof(IDataConverterService) }
-                                    })
-                                    .ToDictionary(kv => kv.Key, kv => kv.Value) 
         };
 
         return this;

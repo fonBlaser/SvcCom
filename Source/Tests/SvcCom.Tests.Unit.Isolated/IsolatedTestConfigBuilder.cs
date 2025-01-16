@@ -30,76 +30,44 @@ public class IsolatedTestConfigBuilder : TestConfigBuilder
         => _config;
 
     public override TestConfigBuilder AddNonExistentAssembly()
-    {
-        _config = _config with
-        {
-            AssemblyPaths = _config.AssemblyPaths
-                                   .Union(new[] { "Assembly.Not.Exists.dll" })
-                                   .ToArray()
-        };
-
-        return this;
-    }
+        => AddAssembly("NonExistentAssembly.dll");
     
     public override TestConfigBuilder AddCorruptedAssembly(string location)
     {
         string assemblyFullPath = Path.Combine(location, "CorruptedAssembly.dll");
         File.WriteAllText(assemblyFullPath, "Corrupted Assembly");
         
-        _config = _config with
-        {
-            AssemblyPaths = _config.AssemblyPaths
-                                   .Union(new[] { assemblyFullPath })
-                                   .ToArray()
-        };
-
-        return this;
+        return AddAssembly(assemblyFullPath);
     }
-    
+
     public override TestConfigBuilder AddMainAssembly()
-    {
-        _config = _config with
-        {
-            AssemblyPaths = _config.AssemblyPaths
-                                   .Union(new[] { MainAssemblyPath })
-                                   .ToArray()
-        };
-
-        return this;
-    }
+        => AddAssembly(MainAssemblyPath);
     
     public override TestConfigBuilder AddDtoAssembly()
+        => AddAssembly(DtoAssemblyPath);
+
+    public override TestConfigBuilder AddNonExistentRootService()
+        => AddRootService("NonExistentRootService", "SvcCom.Samples.SampleWiki.INonExistentService");
+
+    public override TestConfigBuilder AddMainRootService()
+        => AddRootService("MainRootService", "SvcCom.Samples.SampleWiki.IWiki");
+    
+    public override TestConfigBuilder AddDtoRootService()
+        => AddRootService("DtoRootService", "SvcCom.Samples.SampleWiki.Dtos.IDataConverterService");
+    
+    private TestConfigBuilder AddAssembly(string assemblyLocation)
     {
         _config = _config with
         {
             AssemblyPaths = _config.AssemblyPaths
-                .Union(new[] { DtoAssemblyPath })
+                .Union(new[] { assemblyLocation })
                 .ToArray()
         };
 
         return this;
     }
     
-    public override TestConfigBuilder AddNonExistentRootService()
-    {
-        _config = _config with
-        {
-            RootServiceFullTypeNames = _config.RootServiceFullTypeNames
-                                           .Union(
-                                               new[]
-                                               {
-                                                   new KeyValuePair<string, string>(
-                                                       "NonExistentRootService", 
-                                                       "SvcCom.Samples.SampleWiki.INonExistentService"
-                                                       )
-                                               })
-                                           .ToDictionary()
-        };
-
-        return this;
-    }
-
-    public override TestConfigBuilder AddMainRootService()
+    private TestConfigBuilder AddRootService(string key, string fullTypeName)
     {
         _config = _config with
         {
@@ -107,33 +75,11 @@ public class IsolatedTestConfigBuilder : TestConfigBuilder
                 .Union(
                     new[]
                     {
-                        new KeyValuePair<string, string>(
-                            "MainRootService", 
-                            "SvcCom.Samples.SampleWiki.IWiki"
-                        )
+                        new KeyValuePair<string, string>(key, fullTypeName)
                     })
                 .ToDictionary()
         };
-        
-        return this;
-    }
 
-    public override TestConfigBuilder AddDtoRootService()
-    {
-        _config = _config with
-        {
-            RootServiceFullTypeNames = _config.RootServiceFullTypeNames
-                .Union(
-                    new[]
-                    {
-                        new KeyValuePair<string, string>(
-                            "DtoRootService", 
-                            "SvcCom.Samples.SampleWiki.Dtos.IDataConverterService"
-                        )
-                    })
-                .ToDictionary()
-        };
-        
         return this;
     }
 }
