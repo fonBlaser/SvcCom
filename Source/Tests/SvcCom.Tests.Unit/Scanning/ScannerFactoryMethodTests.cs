@@ -5,7 +5,7 @@ using Xunit;
 namespace SvcCom.Tests.Unit.Scanning;
 
 [Trait("Category", "Unit")]
-public abstract class ScannerTests : TestBase
+public abstract class ScannerFactoryMethodTests : TestBase
 {
     [Fact]
     public async Task ScannerConstructor_WithNullConfig_ThrowsException()

@@ -3,7 +3,7 @@ using Xunit;
 namespace SvcCom.Tests.Unit.Referenced.Scanning;
 
 [Trait("Isolation", "Referenced")]
-public class ScannerTests : Unit.Scanning.ScannerTests
+public class ScannerFactoryMethodTests : Unit.Scanning.ScannerFactoryMethodTests
 {
     protected override TestConfigBuilder ConfigBuilder => new ReferencedTestConfigBuilder();
 

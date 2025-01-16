@@ -6,7 +6,7 @@ public class Scanner
 {
     private readonly ScanConfig _config;
 
-    protected Scanner(ScanConfig config)
+    private Scanner(ScanConfig config)
     {
         _config = config;
     }
