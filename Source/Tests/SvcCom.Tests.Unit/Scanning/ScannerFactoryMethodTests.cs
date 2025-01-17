@@ -8,7 +8,7 @@ namespace SvcCom.Tests.Unit.Scanning;
 public abstract class ScannerFactoryMethodTests : TestBase
 {
     [Fact]
-    public async Task ScannerConstructor_WithNullConfig_ThrowsException()
+    public async Task ScannerFactoryMethod_WithNullConfig_ThrowsException()
     {
         ScanConfig config = null!;
         
@@ -16,7 +16,7 @@ public abstract class ScannerFactoryMethodTests : TestBase
     }
     
     [Fact]
-    public async Task ScannerConstructor_WithEmptyAssemblies_ThrowsException()
+    public async Task ScannerFactoryMethod_WithEmptyAssemblies_ThrowsException()
     {
         ScanConfig config = ConfigBuilder
             .Build();
@@ -25,7 +25,7 @@ public abstract class ScannerFactoryMethodTests : TestBase
     }
 
     [Fact]
-    public virtual async Task ScannerConstructor_WithOneNonExistentAssembly_ThrowsException()
+    public virtual async Task ScannerFactoryMethod_WithOneNonExistentAssembly_ThrowsException()
     {
         ScanConfig config = ConfigBuilder
             .AddNonExistentAssembly()
@@ -35,7 +35,7 @@ public abstract class ScannerFactoryMethodTests : TestBase
     }
 
     [Fact]
-    public virtual async Task ScannerConstructor_WithOneCorruptedAssembly_ThrowsException()
+    public virtual async Task ScannerFactoryMethod_WithOneCorruptedAssembly_ThrowsException()
     {
         ScanConfig config = ConfigBuilder
             .AddCorruptedAssembly(AdditionalAssembliesDirectory)
@@ -45,7 +45,7 @@ public abstract class ScannerFactoryMethodTests : TestBase
     }
     
     [Fact]
-    public virtual async Task ScannerConstructor_WithMainAndNonExistentAssemblies_ThrowsException()
+    public virtual async Task ScannerFactoryMethod_WithMainAndNonExistentAssemblies_ThrowsException()
     {
         ScanConfig config = ConfigBuilder
             .AddMainAssembly()
@@ -56,7 +56,7 @@ public abstract class ScannerFactoryMethodTests : TestBase
     }
     
     [Fact]
-    public virtual async Task ScannerConstructor_WithMainAndCorruptedAssemblies_ThrowsException()
+    public virtual async Task ScannerFactoryMethod_WithMainAndCorruptedAssemblies_ThrowsException()
     {
         ScanConfig config = ConfigBuilder
             .AddMainAssembly()
@@ -67,7 +67,7 @@ public abstract class ScannerFactoryMethodTests : TestBase
     }
 
     [Fact]
-    public async Task ScannerConstructor_WithMainAssemblyAndNoRootServices_ThrowsException()
+    public async Task ScannerFactoryMethod_WithMainAssemblyAndNoRootServices_ThrowsException()
     {
         ScanConfig config = ConfigBuilder
             .AddMainAssembly()
@@ -77,7 +77,7 @@ public abstract class ScannerFactoryMethodTests : TestBase
     }
     
     [Fact]
-    public virtual async Task ScannerConstructor_WithMainAssemblyAndNonExistentRootService_ThrowsException()
+    public virtual async Task ScannerFactoryMethod_WithMainAssemblyAndNonExistentRootService_ThrowsException()
     {
         ScanConfig config = ConfigBuilder
             .AddMainAssembly()
@@ -88,7 +88,7 @@ public abstract class ScannerFactoryMethodTests : TestBase
     }
 
     [Fact]
-    public virtual async Task ScannerConstructor_WithMainAssemblyAndDtoRootService_ThrowsException()
+    public virtual async Task ScannerFactoryMethod_WithMainAssemblyAndDtoRootService_ThrowsException()
     {
         ScanConfig config = ConfigBuilder
             .AddMainAssembly()
@@ -99,7 +99,7 @@ public abstract class ScannerFactoryMethodTests : TestBase
     }
     
     [Fact]
-    public virtual async Task ScannerConstructor_WithDtoAssemblyAndMainRootService_ThrowsException()
+    public virtual async Task ScannerFactoryMethod_WithDtoAssemblyAndMainRootService_ThrowsException()
     {
         ScanConfig config = ConfigBuilder
             .AddDtoAssembly()
@@ -110,7 +110,7 @@ public abstract class ScannerFactoryMethodTests : TestBase
     }
     
     [Fact]
-    public async Task ScannerConstructor_WithMainAssemblyAndMainRootService_CreatesScanner()
+    public async Task ScannerFactoryMethod_WithMainAssemblyAndMainRootService_CreatesScanner()
     {
         ScanConfig config = ConfigBuilder
             .AddMainAssembly()
@@ -123,7 +123,7 @@ public abstract class ScannerFactoryMethodTests : TestBase
     }
     
     [Fact]
-    public async Task ScannerConstructor_WithDtoAssemblyAndDtoRootService_CreatesScanner()
+    public async Task ScannerFactoryMethod_WithDtoAssemblyAndDtoRootService_CreatesScanner()
     {
         ScanConfig config = ConfigBuilder
             .AddDtoAssembly()
@@ -136,7 +136,7 @@ public abstract class ScannerFactoryMethodTests : TestBase
     }
     
     [Fact]
-    public async Task ScannerConstructor_WithMainAssemblyAndMainRootServiceAndDtoAssemblyAndDtoRootService_CreatesScanner()
+    public async Task ScannerFactoryMethod_WithMainAssemblyAndMainRootServiceAndDtoAssemblyAndDtoRootService_CreatesScanner()
     {
         ScanConfig config = ConfigBuilder
             .AddMainAssembly()
