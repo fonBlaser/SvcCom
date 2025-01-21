@@ -3,7 +3,7 @@ using Xunit;
 namespace SvcCom.Tests.Unit.Isolated.Scanning;
 
 [Trait("Isolation", "Isolated")]
-public class ScannerFactoryMethodTests : Unit.Scanning.ScannerFactoryMethodTests
+public class ScannerFactoryTests : Unit.Scanning.ScannerFactoryTests
 {
     protected override TestConfigBuilder ConfigBuilder => new IsolatedTestConfigBuilder();
 }
