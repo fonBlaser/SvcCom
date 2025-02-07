@@ -4,14 +4,21 @@ namespace SvcCom.Scanning;
 
 public class Scanner
 {
-    public static TypeSchema AddServiceSchema(Type type, SchemaRegistry registry)
+    private readonly SchemaRegistry _registry;
+
+    public Scanner(SchemaRegistry registry)
     {
-        TypeSchema? schema = registry.Get(type);
+        _registry = registry ?? throw new ArgumentNullException(nameof(registry));
+    }
+
+    public TypeSchema AddServiceSchema(Type type)
+    {
+        TypeSchema? schema = _registry.Get(type);
 
         if (schema == null)
         {
             schema = new TypeSchema(type);
-            registry.Add(schema);
+            _registry.Add(schema);
         }
 
         return schema;
