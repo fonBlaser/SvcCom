@@ -17,6 +17,7 @@
     </ItemGroup>
 
     <ItemGroup>
+        <ProjectReference Include="..\..\Samples\SvcCom.Samples.SampleWiki\SvcCom.Samples.SampleWiki.csproj" />
         <ProjectReference Include="..\..\SvcCom\SvcCom.csproj" />
     </ItemGroup>
 

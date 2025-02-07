@@ -7,7 +7,6 @@ public abstract class TestBase : IDisposable
     protected string CurrentTestId { get; }
     protected string CurrentTestDirectory { get; }
     protected string AdditionalAssembliesDirectory => Path.Combine(CurrentTestDirectory, "AdditionalAssemblies");
-    protected abstract TestConfigBuilder ConfigBuilder { get; }
     
     protected TestBase()
     {
