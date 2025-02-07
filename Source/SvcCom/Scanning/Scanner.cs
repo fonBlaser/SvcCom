@@ -14,6 +14,8 @@ public class Scanner
         Registry = registry ?? throw new ArgumentNullException(nameof(registry));
     }
 
+    // ToDo: Move method to SchemaRegistry: the upsert (get-or-create-schema) should be responsibility of the registry
+    // ToDo: Add IsScanned internal flag to TypeSchema
     public TypeSchema AddTypeSchema(Type type)
     {
         TypeSchema? schema = Registry.Get(type);
@@ -27,6 +29,7 @@ public class Scanner
         return schema;
     }
 
+    // ToDo: Decompose method: AddProperty, IsPropertySuitable
     public TypeSchema AddProperties(TypeSchema schema)
     {
         schema.Type.GetProperties()
