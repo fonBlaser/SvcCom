@@ -65,7 +65,35 @@ public class ScanServiceTests
             = schema.Properties.FirstOrDefault(p => p.Name == nameof(IWiki.Content));
         Assert.NotNull(contentProperty);
         Assert.Equal(typeof(IContent).FullName, contentProperty.TypeSchema.Name);
+    }
+    
+    [Fact]
+    public void AddPropertiesToTypeSchema_Twice_DoesNotChangePropertyList()
+    {
+        Scanner scanner = new TestScannerBuilder()
+            .AddServiceType(typeof(IWiki))
+            .AddServiceType(typeof(IAuthentication))
+            .AddServiceType(typeof(IContent))
+            .Build();   
         
+        TypeSchema schema = scanner.AddTypeSchema(typeof(IWiki));
+
+        scanner.AddProperties(schema);
+        int initialPropertyCount = schema.Properties.Count;
+        int initialTypesCount = scanner.Registry.Types.Count;
+        string[] initialPropertyNames = schema.Properties.Select(p => p.Name).ToArray();
+        string[] initialTypeNames = scanner.Registry.Types.Select(t => t.Name).ToArray();
+        
+        scanner.AddProperties(schema);
+        int finalPropertyCount = schema.Properties.Count;
+        int finalTypesCount = scanner.Registry.Types.Count;
+        string[] finalPropertyNames = schema.Properties.Select(p => p.Name).ToArray();
+        string[] finalTypeNames = scanner.Registry.Types.Select(t => t.Name).ToArray();
+        
+        Assert.Equal(initialPropertyCount, finalPropertyCount);
+        Assert.Equal(initialTypesCount, finalTypesCount);
+        Assert.Equal(initialPropertyNames, finalPropertyNames);
+        Assert.Equal(initialTypeNames, finalTypeNames);
     }
 
     private class TestScannerBuilder
