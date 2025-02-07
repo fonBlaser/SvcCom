@@ -15,4 +15,17 @@ public class SchemaRegistry
 
     public TypeSchema? Get(Type type)
         => _schemas.FirstOrDefault(s => s.Type == type);
+
+    public TypeSchema GetOrCreate(Type type)
+    {
+        TypeSchema? schema = Get(type);
+
+        if (schema == null)
+        {
+            schema = new TypeSchema(type);
+            Add(schema);
+        }
+
+        return schema;
+    }
 }
