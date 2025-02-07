@@ -1,9 +1,7 @@
 using SvcCom.Config;
-using SvcCom.Samples.SampleWiki;
-using SvcCom.Samples.SampleWiki.Authentication;
-using SvcCom.Samples.SampleWiki.Content;
 using SvcCom.Scanning;
 using SvcCom.Schemas;
+using SvcCom.Tests.Unit._TestData.SimpleCase;
 using Xunit;
 
 namespace SvcCom.Tests.Unit.Scanning;
@@ -15,10 +13,10 @@ public class ScanServiceTests
     public void AddTypeSchema_AddPreviouslyConfiguredInterface_ToRegistry()
     {
         Scanner scanner = new TestScannerBuilder()
-            .AddServiceType(typeof(IWiki))
+            .AddServiceType(typeof(IRootService))
             .Build();
         
-        TypeSchema schema = scanner.AddTypeSchema(typeof(IWiki));
+        TypeSchema schema = scanner.AddTypeSchema(typeof(IRootService));
 
         Assert.NotNull(schema);
         Assert.Single(scanner.Registry.Types);
@@ -29,11 +27,11 @@ public class ScanServiceTests
     public void AddTypeSchema_Twice_AddsSchemaOnlyOnce()
     {
         Scanner scanner = new TestScannerBuilder()
-            .AddServiceType(typeof(IWiki))
+            .AddServiceType(typeof(IRootService))
             .Build();
         
-        TypeSchema schema1 = scanner.AddTypeSchema(typeof(IWiki));
-        TypeSchema schema2 = scanner.AddTypeSchema(typeof(IWiki));
+        TypeSchema schema1 = scanner.AddTypeSchema(typeof(IRootService));
+        TypeSchema schema2 = scanner.AddTypeSchema(typeof(IRootService));
 
         Assert.NotNull(schema1);
         Assert.NotNull(schema2);
@@ -46,37 +44,42 @@ public class ScanServiceTests
     public void AddPropertiesToTypeSchema_AddsAllPropertiesWithAppropriateTypes_ToPropertyListAndSchemaRegistry()
     {
         Scanner scanner = new TestScannerBuilder()
-            .AddServiceType(typeof(IWiki))
-            .AddServiceType(typeof(IAuthentication))
-            .AddServiceType(typeof(IContent))
+            .AddServiceType(typeof(IRootService))
+            .AddServiceType(typeof(ISubService))
+            .AddServiceType(typeof(IAnotherSubService))
             .Build();   
         
-        TypeSchema schema = scanner.AddTypeSchema(typeof(IWiki));
+        TypeSchema schema = scanner.AddTypeSchema(typeof(IRootService));
         scanner.AddProperties(schema);
 
         Assert.NotNull(schema.Properties);
 
-        NamedValueSchema? authProperty 
-            = schema.Properties.FirstOrDefault(p => p.Name == nameof(IWiki.Auth));
-        Assert.NotNull(authProperty);
-        Assert.Equal(typeof(IAuthentication).FullName, authProperty.TypeSchema.Name);
+        NamedValueSchema? subProperty 
+            = schema.Properties.FirstOrDefault(p => p.Name == nameof(IRootService.Sub));
+        Assert.NotNull(subProperty);
+        Assert.Equal(typeof(ISubService).FullName, subProperty.TypeSchema.Name);
         
-        NamedValueSchema? contentProperty 
-            = schema.Properties.FirstOrDefault(p => p.Name == nameof(IWiki.Content));
-        Assert.NotNull(contentProperty);
-        Assert.Equal(typeof(IContent).FullName, contentProperty.TypeSchema.Name);
+        NamedValueSchema? anotherSubProperty 
+            = schema.Properties.FirstOrDefault(p => p.Name == nameof(IRootService.AnotherSub));
+        Assert.NotNull(anotherSubProperty);
+        Assert.Equal(typeof(IAnotherSubService).FullName, anotherSubProperty.TypeSchema.Name);
+        
+        NamedValueSchema? yetAnotherSubProperty 
+            = schema.Properties.FirstOrDefault(p => p.Name == nameof(IRootService.YetAnotherSub));
+        Assert.NotNull(yetAnotherSubProperty);
+        Assert.Equal(typeof(IAnotherSubService).FullName, yetAnotherSubProperty.TypeSchema.Name);
     }
     
     [Fact]
     public void AddPropertiesToTypeSchema_Twice_DoesNotChangePropertyList()
     {
         Scanner scanner = new TestScannerBuilder()
-            .AddServiceType(typeof(IWiki))
-            .AddServiceType(typeof(IAuthentication))
-            .AddServiceType(typeof(IContent))
+            .AddServiceType(typeof(IRootService))
+            .AddServiceType(typeof(ISubService))
+            .AddServiceType(typeof(IAnotherSubService))
             .Build();   
         
-        TypeSchema schema = scanner.AddTypeSchema(typeof(IWiki));
+        TypeSchema schema = scanner.AddTypeSchema(typeof(IRootService));
 
         scanner.AddProperties(schema);
         int initialPropertyCount = schema.Properties.Count;
