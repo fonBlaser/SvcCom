@@ -1,3 +1,4 @@
+using System.Reflection;
 using SvcCom.Config;
 using SvcCom.Schemas;
 
@@ -15,32 +16,43 @@ public class Scanner
     }
 
     // ToDo: Add IsScanned internal flag to TypeSchema
-    public TypeSchema AddTypeSchema(Type type)
+    public TypeSchema GetOrCreateTypeSchema(Type type)
         => Registry.GetOrCreate(type);
 
-    // ToDo: Decompose method: AddProperty, IsPropertySuitable
-    public TypeSchema AddProperties(TypeSchema schema)
-    {
-        schema.Type.GetProperties()
-            .Where(p => 
-                        p.GetMethod != null
-                        && p.GetMethod.IsPublic)
+    public void AddProperties(TypeSchema schema)
+        => GetOrCreateSchemasForProperties(schema.Type)
             .ToList()
-            .ForEach(p =>
-            {
-                bool isNullable = false;
-                Type propertyType = p.PropertyType;
-                if (propertyType.IsGenericType && propertyType.GetGenericTypeDefinition() == typeof(Nullable<>))
-                {
-                    isNullable = true;
-                    propertyType = propertyType.GetGenericArguments().First();
-                }
-                
-                TypeSchema propertyTypeSchema = AddTypeSchema(propertyType);
-                NamedValueSchema valueSchema = new NamedValueSchema(p.Name, propertyTypeSchema, isNullable);
-                schema.AddProperty(valueSchema);
-            });
-
-        return schema;
+            .ForEach(schema.AddProperty);
+    
+    public IEnumerable<NamedValueSchema> GetOrCreateSchemasForProperties(Type type)
+        => GetSuitableProperties(type)
+            .Select(GetPropertySchemaInfo)
+            .Select(p 
+                => new NamedValueSchema(
+                    p.Name, 
+                    GetOrCreateTypeSchema(p.PropertyValueType), 
+                    p.IsNullable)
+            );
+    
+    public (string Name, bool IsNullable, Type PropertyValueType) GetPropertySchemaInfo(PropertyInfo property)
+    {
+        bool isNullable = false;
+        Type propertyType = property.PropertyType;
+        
+        if (propertyType.IsGenericType && propertyType.GetGenericTypeDefinition() == typeof(Nullable<>))
+        {
+            isNullable = true;
+            propertyType = propertyType.GetGenericArguments().First();
+        }
+        
+        return (property.Name, isNullable, propertyType);
     }
+    
+    public IEnumerable<PropertyInfo> GetSuitableProperties(Type type)
+        => type.GetProperties()
+               .Where(IsPropertySuitable);
+    
+    public bool IsPropertySuitable(PropertyInfo property)
+        => property.GetMethod != null
+           && property.GetMethod.IsPublic;
 }

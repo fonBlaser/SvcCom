@@ -16,7 +16,7 @@ public class ScanServiceTests
             .AddServiceType(typeof(IRootService))
             .Build();
         
-        TypeSchema schema = scanner.AddTypeSchema(typeof(IRootService));
+        TypeSchema schema = scanner.GetOrCreateTypeSchema(typeof(IRootService));
 
         Assert.NotNull(schema);
         Assert.Single(scanner.Registry.Types);
@@ -30,8 +30,8 @@ public class ScanServiceTests
             .AddServiceType(typeof(IRootService))
             .Build();
         
-        TypeSchema schema1 = scanner.AddTypeSchema(typeof(IRootService));
-        TypeSchema schema2 = scanner.AddTypeSchema(typeof(IRootService));
+        TypeSchema schema1 = scanner.GetOrCreateTypeSchema(typeof(IRootService));
+        TypeSchema schema2 = scanner.GetOrCreateTypeSchema(typeof(IRootService));
 
         Assert.NotNull(schema1);
         Assert.NotNull(schema2);
@@ -49,7 +49,7 @@ public class ScanServiceTests
             .AddServiceType(typeof(IAnotherSubService))
             .Build();   
         
-        TypeSchema schema = scanner.AddTypeSchema(typeof(IRootService));
+        TypeSchema schema = scanner.GetOrCreateTypeSchema(typeof(IRootService));
         scanner.AddProperties(schema);
 
         Assert.NotNull(schema.Properties);
@@ -79,7 +79,7 @@ public class ScanServiceTests
             .AddServiceType(typeof(IAnotherSubService))
             .Build();   
         
-        TypeSchema schema = scanner.AddTypeSchema(typeof(IRootService));
+        TypeSchema schema = scanner.GetOrCreateTypeSchema(typeof(IRootService));
 
         scanner.AddProperties(schema);
         int initialPropertyCount = schema.Properties.Count;
