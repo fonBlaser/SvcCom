@@ -52,7 +52,8 @@ public class Scanner
         => type.GetProperties()
                .Where(IsPropertySuitable);
     
-    public bool IsPropertySuitable(PropertyInfo property)
-        => property.GetMethod != null
+    public bool IsPropertySuitable(PropertyInfo? property)
+        => property != null
+           && property.GetMethod != null
            && property.GetMethod.IsPublic;
 }

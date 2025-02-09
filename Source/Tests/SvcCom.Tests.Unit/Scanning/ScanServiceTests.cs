@@ -1,6 +1,8 @@
+using System.Reflection;
 using SvcCom.Config;
 using SvcCom.Scanning;
 using SvcCom.Schemas;
+using SvcCom.Tests.Unit._TestData.CasesWithProperties;
 using SvcCom.Tests.Unit._TestData.SimpleCase;
 using Xunit;
 
@@ -38,6 +40,61 @@ public class ScanServiceTests
         Assert.Single(scanner.Registry.Types);
         Assert.Same(schema1, schema2);
         Assert.Same(schema1, scanner.Registry.Types.First());
+    }
+
+    [Fact]
+    public void IsPropertySuitable_ForPublicPropertyWithInternalGetter_ReturnsFalse()
+    {
+        Scanner scanner = new TestScannerBuilder()
+            .Build();
+        
+        PropertyInfo? p = typeof(IServiceWithProperties)
+            .GetProperty(nameof(IServiceWithProperties.PropertyWithInternalGetter));
+        
+        bool isSuitable = scanner.IsPropertySuitable(p!);
+        
+        Assert.False(isSuitable);
+    }
+
+    [Fact]
+    public void IsPropertySuitable_ForPublicPropertyWithPublicAccessor_ReturnsTrue()
+    {
+        Scanner scanner = new TestScannerBuilder()
+            .Build();
+        
+        PropertyInfo? p = typeof(IServiceWithProperties)
+            .GetProperty(nameof(IServiceWithProperties.Ver));
+        
+        bool isSuitable = scanner.IsPropertySuitable(p!);
+        
+        Assert.True(isSuitable);
+    }
+    
+    [Fact]
+    public void IsPropertySuitable_ForInternalProperty_ReturnsFalse()
+    {
+        Scanner scanner = new TestScannerBuilder()
+            .Build();
+        
+        PropertyInfo? p = typeof(IServiceWithProperties)
+            .GetProperty(nameof(IServiceWithProperties.InternalProperty));
+        
+        bool isSuitable = scanner.IsPropertySuitable(p!);
+        
+        Assert.False(isSuitable);
+    }
+    
+    [Fact]
+    public void GetSuitableProperties_ReturnsOnlyPublicPropertiesWithPublicAccessors()
+    {
+        Scanner scanner = new TestScannerBuilder()
+            .Build();
+        
+        PropertyInfo[] properties = scanner.GetSuitableProperties(typeof(IServiceWithProperties))
+            .ToArray();
+
+        Assert.Single(properties);
+        Assert.Equal(nameof(IServiceWithProperties.Ver), properties.First().Name);
     }
 
     [Fact]
