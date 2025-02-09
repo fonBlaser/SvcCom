@@ -2,6 +2,7 @@ using System.Reflection;
 using SvcCom.Config;
 using SvcCom.Scanning;
 using SvcCom.Schemas;
+using SvcCom.Tests.Unit._TestData.CasesWithMethods;
 using SvcCom.Tests.Unit._TestData.CasesWithProperties;
 using SvcCom.Tests.Unit._TestData.SimpleCase;
 using Xunit;
@@ -154,6 +155,84 @@ public class ScanServiceTests
         Assert.Equal(initialTypesCount, finalTypesCount);
         Assert.Equal(initialPropertyNames, finalPropertyNames);
         Assert.Equal(initialTypeNames, finalTypeNames);
+    }
+    
+    [Fact]
+    public void IsMethodSuitable_ForInternalMethod_ReturnsFalse()
+    {
+        Scanner scanner = new TestScannerBuilder()
+            .Build();
+        
+        MethodInfo? m = typeof(IServiceWithMethods)
+            .GetMethod(nameof(IServiceWithMethods.InternalVoidMethodWithoutParameters));
+        
+        bool isSuitable = scanner.IsMethodSuitable(m!);
+        
+        Assert.False(isSuitable);
+    }
+
+    [Fact]
+    public void IsMethodSuitable_ForPublicMethod_ReturnsTrue()
+    {
+        Scanner scanner = new TestScannerBuilder()
+            .Build();
+        
+        MethodInfo? m = typeof(IServiceWithMethods)
+            .GetMethod(nameof(IServiceWithMethods.PublicAsyncMethodWithParameters));
+        
+        bool isSuitable = scanner.IsMethodSuitable(m!);
+        
+        Assert.True(isSuitable);
+    }
+
+    [Fact]
+    public void IsMethodSuitable_ForPublicMethodWithServiceReturnType_ReturnsFalse()
+    {
+        Scanner scanner = new TestScannerBuilder()
+            .AddServiceType(typeof(IServiceWithMethods))
+            .AddServiceType(typeof(ISubServiceWithMethods))
+            .Build();
+        
+        MethodInfo? m = typeof(IServiceWithMethods)
+            .GetMethod(nameof(IServiceWithMethods.PublicMethodReturningSubService));
+        
+        bool isSuitable = scanner.IsMethodSuitable(m!);
+        
+        Assert.False(isSuitable);
+    }
+    
+    [Fact]
+    public void IsMethodSuitable_ForPublicAsyncMethodWithServiceReturnType_ReturnsFalse()
+    {
+        Scanner scanner = new TestScannerBuilder()
+            .AddServiceType(typeof(IServiceWithMethods))
+            .AddServiceType(typeof(ISubServiceWithMethods))
+            .Build();
+        
+        MethodInfo? m = typeof(IServiceWithMethods)
+            .GetMethod(nameof(IServiceWithMethods.PublicAsyncMethodReturningSubService));
+        
+        bool isSuitable = scanner.IsMethodSuitable(m!);
+        
+        Assert.False(isSuitable);
+    }
+
+    [Fact]
+    public void GetSuitableMethods_ReturnsOnlyPublicMethods_WithoutServiceReturningMethods()
+    {
+        Scanner scanner = new TestScannerBuilder()
+            .AddServiceType(typeof(IServiceWithMethods))
+            .AddServiceType(typeof(ISubServiceWithMethods))
+            .Build();
+        
+        MethodInfo[] methods = scanner.GetSuitableMethods(typeof(IServiceWithMethods))
+            .ToArray();
+
+        Assert.Equal(4, methods.Length);
+        Assert.Contains(methods, m => m.Name == nameof(IServiceWithMethods.PublicVoidMethodWithoutParameters));
+        Assert.Contains(methods, m => m.Name == nameof(IServiceWithMethods.PublicVoidMethodWithParameters));
+        Assert.Contains(methods, m => m.Name == nameof(IServiceWithMethods.PublicAsyncMethodWithoutParameters));
+        Assert.Contains(methods, m => m.Name == nameof(IServiceWithMethods.PublicAsyncMethodWithParameters));
     }
 
     private class TestScannerBuilder

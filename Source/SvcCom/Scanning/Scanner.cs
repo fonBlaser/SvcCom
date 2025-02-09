@@ -47,6 +47,12 @@ public class Scanner
         
         return (property.Name, isNullable, propertyType);
     }
+
+    public (string Name, bool IsAsync, ValueSchema Returns, NamedValueSchema[] Parameters) 
+        GetMethodSchemaInfo(MethodInfo methodInfo)
+    {
+        throw new NotImplementedException();
+    }
     
     public IEnumerable<PropertyInfo> GetSuitableProperties(Type type)
         => type.GetProperties()
@@ -56,4 +62,27 @@ public class Scanner
         => property != null
            && property.GetMethod != null
            && property.GetMethod.IsPublic;
+
+    public IEnumerable<MethodInfo> GetSuitableMethods(Type type)
+        => type.GetMethods()
+               .Where(IsMethodSuitable);
+    
+    public bool IsMethodSuitable(MethodInfo? method)
+        => method != null
+           && method.IsPublic
+           && !Config.ServiceTypeFullNames.Contains(GetUnderlyingOrMainValueType(method.ReturnType).FullName);
+
+    public Type GetUnderlyingOrMainValueType(Type type)
+    {
+        if (!type.IsGenericType)
+            return type;
+        
+        if(type.GetGenericTypeDefinition() == typeof(Task<>))
+            return GetUnderlyingOrMainValueType(type.GetGenericArguments().First());
+        
+        if(type.GetGenericTypeDefinition() == typeof(Nullable<>))
+            return GetUnderlyingOrMainValueType(type.GetGenericArguments().First());
+        
+        return type;
+    }
 }
