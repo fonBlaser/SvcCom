@@ -16,6 +16,9 @@ public class Scanner
     }
 
     // ToDo: Add IsScanned internal flag to TypeSchema
+    
+    // ToDo: Return type can be without default Ctor but parameter should have default Ctor (because of serialization)
+    // ToDo: Probably allow to pass parameter types via Constructor parameters (e.g. JSON "myParam: ctor(val1, val2)")
     public TypeSchema GetOrCreateTypeSchema(Type type)
         => Registry.GetOrCreate(type);
 
