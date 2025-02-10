@@ -22,8 +22,8 @@ public class ScanServiceTests
         TypeSchema schema = scanner.GetOrCreateTypeSchema(typeof(IRootService));
 
         Assert.NotNull(schema);
-        Assert.Single(scanner.Registry.Types);
-        Assert.Same(schema, scanner.Registry.Types.First());
+        Assert.Single(scanner.Registry.Schemas);
+        Assert.Same(schema, scanner.Registry.Schemas.First());
     }
     
     [Fact]
@@ -38,9 +38,9 @@ public class ScanServiceTests
 
         Assert.NotNull(schema1);
         Assert.NotNull(schema2);
-        Assert.Single(scanner.Registry.Types);
+        Assert.Single(scanner.Registry.Schemas);
         Assert.Same(schema1, schema2);
-        Assert.Same(schema1, scanner.Registry.Types.First());
+        Assert.Same(schema1, scanner.Registry.Schemas.First());
     }
 
     [Fact]
@@ -141,15 +141,15 @@ public class ScanServiceTests
 
         scanner.AddProperties(schema);
         int initialPropertyCount = schema.Properties.Count;
-        int initialTypesCount = scanner.Registry.Types.Count;
+        int initialTypesCount = scanner.Registry.Schemas.Count;
         string[] initialPropertyNames = schema.Properties.Select(p => p.Name).ToArray();
-        string[] initialTypeNames = scanner.Registry.Types.Select(t => t.Name).ToArray();
+        string[] initialTypeNames = scanner.Registry.Schemas.Select(t => t.Name).ToArray();
         
         scanner.AddProperties(schema);
         int finalPropertyCount = schema.Properties.Count;
-        int finalTypesCount = scanner.Registry.Types.Count;
+        int finalTypesCount = scanner.Registry.Schemas.Count;
         string[] finalPropertyNames = schema.Properties.Select(p => p.Name).ToArray();
-        string[] finalTypeNames = scanner.Registry.Types.Select(t => t.Name).ToArray();
+        string[] finalTypeNames = scanner.Registry.Schemas.Select(t => t.Name).ToArray();
         
         Assert.Equal(initialPropertyCount, finalPropertyCount);
         Assert.Equal(initialTypesCount, finalTypesCount);
@@ -252,7 +252,7 @@ public class ScanServiceTests
         
         internal Scanner Build()
         {
-            SchemaRegistry registry = new();
+            TypeSchemaRegistry registry = new();
             ScannerConfig config = new ScannerConfig()
             {
                 ServiceTypeFullNames = ServiceTypeFullNames.ToArray()

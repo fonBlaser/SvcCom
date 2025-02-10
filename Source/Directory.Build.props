@@ -1,9 +1,9 @@
 <Project>
     <PropertyGroup>
         <AssemblyProduct>SvcCom</AssemblyProduct>
-        <FileVersion>2.0.4.42</FileVersion>
-        <AssemblyVersion>2.0.4.42</AssemblyVersion>
-        <InformationalVersion>2.0.4.42</InformationalVersion>
+        <FileVersion>2.0.4.43</FileVersion>
+        <AssemblyVersion>2.0.4.43</AssemblyVersion>
+        <InformationalVersion>2.0.4.43</InformationalVersion>
         <PackageVersion>2.0.3</PackageVersion>
         <Authors>Eugene Yakush</Authors>
         <Company>Eugene Yakush</Company>

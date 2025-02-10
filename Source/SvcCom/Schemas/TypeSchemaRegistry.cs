@@ -1,9 +1,9 @@
 namespace SvcCom.Schemas;
 
-public class SchemaRegistry
+public class TypeSchemaRegistry
 {
     private readonly List<TypeSchema> _schemas = new();
-    public IReadOnlyCollection<TypeSchema> Types => _schemas.AsReadOnly();
+    public IReadOnlyCollection<TypeSchema> Schemas => _schemas.AsReadOnly();
 
     public void Add(TypeSchema schema)
     {
@@ -13,12 +13,9 @@ public class SchemaRegistry
         _schemas.Add(schema);
     }
 
-    public TypeSchema? Get(Type type)
-        => _schemas.FirstOrDefault(s => s.Type == type);
-
     public TypeSchema GetOrCreate(Type type)
     {
-        TypeSchema? schema = Get(type);
+        TypeSchema? schema = _schemas.FirstOrDefault(s => s.Type == type);
 
         if (schema == null)
         {

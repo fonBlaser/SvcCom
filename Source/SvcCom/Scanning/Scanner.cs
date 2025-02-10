@@ -7,9 +7,9 @@ namespace SvcCom.Scanning;
 public class Scanner
 {
     internal ScannerConfig Config { get; }
-    public SchemaRegistry Registry { get; }
+    public TypeSchemaRegistry Registry { get; }
 
-    public Scanner(ScannerConfig config, SchemaRegistry registry)
+    public Scanner(ScannerConfig config, TypeSchemaRegistry registry)
     {
         Config = config ?? throw new ArgumentNullException(nameof(config));
         Registry = registry ?? throw new ArgumentNullException(nameof(registry));
@@ -46,12 +46,6 @@ public class Scanner
         }
         
         return (property.Name, isNullable, propertyType);
-    }
-
-    public (string Name, bool IsAsync, ValueSchema Returns, NamedValueSchema[] Parameters) 
-        GetMethodSchemaInfo(MethodInfo methodInfo)
-    {
-        throw new NotImplementedException();
     }
     
     public IEnumerable<PropertyInfo> GetSuitableProperties(Type type)
