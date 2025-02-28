@@ -1,5 +1,6 @@
 using SvcCom.Schemas;
 using Xunit;
+using Xunit.Sdk;
 
 namespace SvcCom.Tests.Unit.Schemas;
 
@@ -34,5 +35,15 @@ public class TypeSchemaRegistryTests : TestBase
         TypeSchema typeSchema2 = registry.GetOrCreate(typeof(string));
         
         Assert.Same(typeSchema1, typeSchema2);
+    }
+
+    [Fact]
+    public void CreateOrThrow_ThrowsError_IfTypeAlreadyAdded()
+    {
+        TypeSchemaRegistry registry = new();
+
+        registry.CreateOrThrow(typeof(string));
+
+        Assert.Throws<InvalidOperationException>(() => registry.CreateOrThrow(typeof(string)));
     }
 }

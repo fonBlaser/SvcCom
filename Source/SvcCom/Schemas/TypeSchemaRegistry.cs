@@ -5,17 +5,17 @@ namespace SvcCom.Schemas;
 public class TypeSchemaRegistry : IEnumerable<TypeSchema>
 {
     private List<TypeSchema> _types = new();
-    
+
     public TypeSchema GetOrCreate(Type type)
     {
-        TypeSchema? typeSchema = _types.FirstOrDefault(ts => ts.Type == type);
-        
+        TypeSchema? typeSchema = _types.FirstOrDefault(schema => schema.Type == type);
+
         if (typeSchema is null)
         {
             typeSchema = new TypeSchema(type);
             _types.Add(typeSchema);
         }
-        
+
         return typeSchema;
     }
     
@@ -24,6 +24,14 @@ public class TypeSchemaRegistry : IEnumerable<TypeSchema>
 
     IEnumerator IEnumerable.GetEnumerator()
         => GetEnumerator();
+
+    public void CreateOrThrow(Type type)
+    {
+        if (_types.Any(schema => schema.Type == type))
+            throw new InvalidOperationException($"Type '{type.FullName}' already added to the registry.");
+        
+        _types.Add(new TypeSchema(type));
+    }
 }
 
 public sealed class TypeSchema
