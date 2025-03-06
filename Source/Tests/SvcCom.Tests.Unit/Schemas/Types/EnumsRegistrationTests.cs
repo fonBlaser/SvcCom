@@ -9,7 +9,7 @@ namespace SvcCom.Tests.Unit.Schemas.Types;
 public class EnumsRegistrationTests : TypeSchemaRegistryTestBase
 {
     [Fact]
-    public void TypeRegistryGetOrCreateSchema_ForEmptyEnumType_ReturnsEnumTypeSchemaWithoutValues()
+    public void TypeSchemaRegistryGetOrCreateSchema_ForEmptyEnumType_ReturnsEnumTypeSchemaWithoutValues()
     {
         TypeSchema typeSchema = Registry.GetOrCreateSchema(typeof(EmptyEnum));
 
@@ -22,7 +22,7 @@ public class EnumsRegistrationTests : TypeSchemaRegistryTestBase
     }
 
     [Fact]
-    public void TypeRegistryGetOrCreateSchema_ForEnumType_ReturnsEnumTypeSchemaWithoutValues()
+    public void TypeSchemaRegistryGetOrCreateSchema_ForEnumType_ReturnsEnumTypeSchemaWithoutValues()
     {
         TypeSchema typeSchema = Registry.GetOrCreateSchema(typeof(EnumWithDifferentValues));
 
@@ -37,7 +37,7 @@ public class EnumsRegistrationTests : TypeSchemaRegistryTestBase
     [Theory]
     [InlineData(typeof(EmptyEnum))]
     [InlineData(typeof(EnumWithDifferentValues))]
-    public void TypeRegistryGetOrCreateEntry_ForBothEmptyAndFilledEnums_ReturnsEntryWithoutIsScannedFlag(Type enumType)
+    public void TypeSchemaRegistryGetOrCreateEntry_ForBothEmptyAndFilledEnums_ReturnsEntryWithoutIsScannedFlag(Type enumType)
     {
         TypeSchemaRegistryEntry entry = Registry.GetOrCreateEntry(enumType);
 

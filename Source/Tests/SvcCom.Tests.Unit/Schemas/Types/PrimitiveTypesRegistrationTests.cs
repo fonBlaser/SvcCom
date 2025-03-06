@@ -21,7 +21,7 @@ public class PrimitiveTypesRegistrationTests : TypeSchemaRegistryTestBase
     [InlineData(typeof(float))]
     [InlineData(typeof(double))]
     [InlineData(typeof(decimal))]
-    public void TypeRegistryGetOrCreateSchema_ForNumericTypes_ReturnsPrimitiveTypeSchemaWithIsNumericFlag(
+    public void TypeSchemaRegistryGetOrCreateSchema_ForNumericTypes_ReturnsPrimitiveTypeSchemaWithIsNumericFlag(
         Type numericBuiltInType)
     {
         TypeSchema typeSchema = Registry.GetOrCreateSchema(numericBuiltInType);
@@ -35,7 +35,7 @@ public class PrimitiveTypesRegistrationTests : TypeSchemaRegistryTestBase
     }
 
     [Fact]
-    public void TypeRegistryGetOrCreateSchema_ForBoolType_ReturnsPrimitiveTypeSchemaWithIsBoolFlag()
+    public void TypeSchemaRegistryGetOrCreateSchema_ForBoolType_ReturnsPrimitiveTypeSchemaWithIsBoolFlag()
     {
         TypeSchema typeSchema = Registry.GetOrCreateSchema(typeof(bool));
 
@@ -50,7 +50,7 @@ public class PrimitiveTypesRegistrationTests : TypeSchemaRegistryTestBase
     [Theory]
     [InlineData(typeof(char))]
     [InlineData(typeof(string))]
-    public void TypeRegistryGetOrCreateSchema_ForStringTypes_ReturnsPrimitiveTypeSchemaWithIsStringFlag(
+    public void TypeSchemaRegistryGetOrCreateSchema_ForStringTypes_ReturnsPrimitiveTypeSchemaWithIsStringFlag(
         Type stringBuiltInType)
     {
         TypeSchema typeSchema = Registry.GetOrCreateSchema(stringBuiltInType);
@@ -64,7 +64,7 @@ public class PrimitiveTypesRegistrationTests : TypeSchemaRegistryTestBase
     }
 
     [Fact]
-    public void TypeRegistryGetOrCreateSchema_ForGuidType_ReturnsPrimitiveTypeSchemaWithIsGuidFlag()
+    public void TypeSchemaRegistryGetOrCreateSchema_ForGuidType_ReturnsPrimitiveTypeSchemaWithIsGuidFlag()
     {
         TypeSchema typeSchema = Registry.GetOrCreateSchema(typeof(Guid));
 
@@ -94,7 +94,7 @@ public class PrimitiveTypesRegistrationTests : TypeSchemaRegistryTestBase
     [InlineData(typeof(char))]
     [InlineData(typeof(string))]
     [InlineData(typeof(Guid))]
-    public void TypeRegistryGetOrCreateEntry_ForPrimitiveTypes_ReturnsEntryWithPrimitiveTypeSchemaAndIsScannedFlag(
+    public void TypeSchemaRegistryGetOrCreateEntry_ForPrimitiveTypes_ReturnsEntryWithPrimitiveTypeSchemaAndIsScannedFlag(
         Type primitiveType)
     {
         TypeSchemaRegistryEntry entry = Registry.GetOrCreateEntry(primitiveType);

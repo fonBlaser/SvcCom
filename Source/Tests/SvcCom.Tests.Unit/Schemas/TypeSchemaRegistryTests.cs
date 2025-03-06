@@ -14,7 +14,7 @@ public class TypeSchemaRegistryTests : TypeSchemaRegistryTestBase
     }
     
     [Fact]
-    public void GetOrCreateSchema_ForNewType_CreatesNewTypeSchema()
+    public void TypeSchemaRegistryGetOrCreateSchema_ForNewType_CreatesNewTypeSchema()
     {
         TypeSchema typeSchema = Registry.GetOrCreateSchema(typeof(string));
         
@@ -23,7 +23,7 @@ public class TypeSchemaRegistryTests : TypeSchemaRegistryTestBase
     }
     
     [Fact]
-    public void GetOrCreateSchema_ForExistingType_ReturnsExistingTypeSchema()
+    public void TypeSchemaRegistryGetOrCreateSchema_ForExistingType_ReturnsExistingTypeSchema()
     {
         TypeSchema typeSchema1 = Registry.GetOrCreateSchema(typeof(string));
         TypeSchema typeSchema2 = Registry.GetOrCreateSchema(typeof(string));
@@ -32,7 +32,7 @@ public class TypeSchemaRegistryTests : TypeSchemaRegistryTestBase
     }
 
     [Fact]
-    public void GetOrCreateEntry_ForNewType_CreatesNewTypeSchemaRegistryEntry()
+    public void TypeSchemaRegistryGetOrCreateEntry_ForNewType_CreatesNewTypeSchemaRegistryEntry()
     {
         TypeSchemaRegistryEntry entry = Registry.GetOrCreateEntry(typeof(string));
 
@@ -41,7 +41,7 @@ public class TypeSchemaRegistryTests : TypeSchemaRegistryTestBase
     }
 
     [Fact]
-    public void GetOrCreateEntry_ForExistingType_ReturnsExistingTypeSchemaRegistryEntry()
+    public void TypeSchemaRegistryGetOrCreateEntry_ForExistingType_ReturnsExistingTypeSchemaRegistryEntry()
     {
         TypeSchemaRegistryEntry entry1 = Registry.GetOrCreateEntry(typeof(string));
         TypeSchemaRegistryEntry entry2 = Registry.GetOrCreateEntry(typeof(string));
