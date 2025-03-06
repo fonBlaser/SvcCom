@@ -1,3 +1,5 @@
+using SvcCom.Schemas.Types;
+
 namespace SvcCom.Schemas;
 
 public class TypeSchemaRegistryEntry

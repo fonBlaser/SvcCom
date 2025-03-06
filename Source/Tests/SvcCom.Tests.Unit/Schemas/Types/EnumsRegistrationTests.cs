@@ -1,8 +1,9 @@
 ﻿using SvcCom.Schemas;
+using SvcCom.Schemas.Types;
 using SvcCom.Tests.Unit._TestData.SimpleCases;
 using Xunit;
 
-namespace SvcCom.Tests.Unit.Schemas;
+namespace SvcCom.Tests.Unit.Schemas.Types;
 
 [Trait("Category", "Unit")]
 public class EnumsRegistrationTests : TestBase

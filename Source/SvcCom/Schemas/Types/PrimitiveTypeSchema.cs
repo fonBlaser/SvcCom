@@ -1,6 +1,6 @@
 using SvcCom.Utility.Extensions;
 
-namespace SvcCom.Schemas;
+namespace SvcCom.Schemas.Types;
 
 public class PrimitiveTypeSchema : TypeSchema
 {

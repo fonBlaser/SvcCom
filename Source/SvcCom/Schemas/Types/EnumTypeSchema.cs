@@ -1,6 +1,7 @@
 ﻿using System.Collections;
+using SvcCom.Schemas.Values;
 
-namespace SvcCom.Schemas;
+namespace SvcCom.Schemas.Types;
 
 public class EnumTypeSchema : TypeSchema, IEnumerable<EnumValueSchema>
 {

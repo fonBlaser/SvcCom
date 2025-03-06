@@ -1,7 +1,8 @@
 ﻿using SvcCom.Schemas;
+using SvcCom.Schemas.Types;
 using Xunit;
 
-namespace SvcCom.Tests.Unit.Schemas;
+namespace SvcCom.Tests.Unit.Schemas.Types;
 
 [Trait("Category", "Unit")]
 public class PrimitiveTypesRegistrationTests : TestBase

@@ -1,4 +1,5 @@
 using SvcCom.Schemas;
+using SvcCom.Schemas.Types;
 using Xunit;
 
 namespace SvcCom.Tests.Unit.Schemas;

@@ -1,4 +1,4 @@
-﻿namespace SvcCom.Schemas;
+﻿namespace SvcCom.Schemas.Values;
 
 public class EnumValueSchema
 {
