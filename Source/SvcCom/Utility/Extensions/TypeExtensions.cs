@@ -32,5 +32,20 @@
 
         public static bool IsPrimitiveGuid(this Type type)
             => type == typeof(Guid);
+
+        public static bool IsNotAllowedForRegistration(this Type type)
+            => type.IsNotAllowedForRegistrationByType()
+            || type.IsNotAllowedForRegistrationByModifiers();
+
+        public static bool IsNotAllowedForRegistrationByType(this Type type)
+            => type == typeof(void)
+            || type == typeof(object)
+            || type == typeof(Task)
+            || type == typeof(Task<>)
+            || type == typeof(ValueTask)
+            || type == typeof(ValueTask<>);
+
+        public static bool IsNotAllowedForRegistrationByModifiers(this Type type)
+            => !type.IsPublic;
     }
 }

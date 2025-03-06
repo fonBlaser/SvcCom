@@ -13,6 +13,9 @@ public class TypeSchemaRegistry : IEnumerable<TypeSchemaRegistryEntry>
 
     public TypeSchemaRegistryEntry GetOrCreateEntry(Type type)
     {
+        if(type.IsNotAllowedForRegistration())
+            throw new TypeAccessException($"Type {type.FullName} is not allowed for registration.");
+        
         TypeSchemaRegistryEntry? entry = _entries.FirstOrDefault(entry => entry.Schema.Type == type);
 
         if (entry is not null)
