@@ -3,43 +3,50 @@ using SvcCom.Utility.Extensions;
 
 namespace SvcCom.Schemas;
 
-public class TypeSchemaRegistry : IEnumerable<TypeSchema>, IEnumerable<TypeSchemaRegistryEntry>
+public class TypeSchemaRegistry : IEnumerable<TypeSchemaRegistryEntry>
 {
     private readonly List<TypeSchemaRegistryEntry> _entries = [];
 
-    public TypeSchema GetOrCreate(Type type)
+    public TypeSchema GetOrCreateSchema(Type type)
+        => GetOrCreateEntry(type).Schema;
+
+    public TypeSchemaRegistryEntry GetOrCreateEntry(Type type)
     {
-        TypeSchema? typeSchema = _entries.FirstOrDefault(entry => entry.Schema.Type == type)?.Schema;
+        TypeSchemaRegistryEntry? entry = _entries.FirstOrDefault(entry => entry.Schema.Type == type);
 
-        if (typeSchema is not null)
-            return typeSchema;
+        if (entry is not null)
+            return entry;
 
-        if (type.IsPrimitive())
-            return CreateAndRegisterPrimitiveTypeSchema(type);
+        entry = type switch
+        {
+            _ when type.IsPrimitive() => CreateAndRegisterPrimitiveTypeSchema(type),
+            _ => CreateAndRegisterDefaultTypeSchema(type)
+        };
 
-        return CreateAndRegisterDefaultTypeSchema(type);
+        _entries.Add(entry);
+        return entry;
     }
 
-    private PrimitiveTypeSchema CreateAndRegisterPrimitiveTypeSchema(Type type)
+    private static TypeSchemaRegistryEntry CreateAndRegisterPrimitiveTypeSchema(Type type)
     {
-        PrimitiveTypeSchema typeSchema = new(type);
-        _entries.Add(new TypeSchemaRegistryEntry(typeSchema) { IsScanned = true });
-        return typeSchema;
+        TypeSchemaRegistryEntry entry = new(new PrimitiveTypeSchema(type))
+        {
+            IsScanned = true
+        };
+        return entry;
     }
 
-    private TypeSchema CreateAndRegisterDefaultTypeSchema(Type type)
-    {
-        TypeSchema typeSchema = new(type);
-        _entries.Add(new TypeSchemaRegistryEntry(typeSchema));
-        return typeSchema;
-    }
+    private static TypeSchemaRegistryEntry CreateAndRegisterDefaultTypeSchema(Type type) 
+        => new(new TypeSchema(type));
 
-    IEnumerator<TypeSchemaRegistryEntry> IEnumerable<TypeSchemaRegistryEntry>.GetEnumerator()
+
+    #region Enumerators
+
+    public IEnumerator<TypeSchemaRegistryEntry> GetEnumerator()
         => _entries.GetEnumerator();
-
-    public IEnumerator<TypeSchema> GetEnumerator()
-        => _entries.Select(entry => entry.Schema).GetEnumerator();
 
     IEnumerator IEnumerable.GetEnumerator()
         => GetEnumerator();
+
+    #endregion
 }

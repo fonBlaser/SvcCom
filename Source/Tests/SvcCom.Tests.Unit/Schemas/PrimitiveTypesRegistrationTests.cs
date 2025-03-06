@@ -6,7 +6,7 @@ namespace SvcCom.Tests.Unit.Schemas;
 [Trait("Category", "Unit")]
 public class PrimitiveTypesRegistrationTests : TestBase
 {
-    private TypeSchemaRegistry Registry { get; } = new TypeSchemaRegistry();
+    private TypeSchemaRegistry Registry { get; } = new();
 
     [Theory]
     #region Inline data
@@ -24,9 +24,9 @@ public class PrimitiveTypesRegistrationTests : TestBase
     [InlineData(typeof(double))]
     [InlineData(typeof(decimal))]
     #endregion
-    public void TypeRegistryGetOrCreate_ForNumericTypes_ReturnsPrimitiveTypeSchemaWithIsNumericFlag(Type numericBuiltInType)
+    public void TypeRegistryGetOrCreateSchema_ForNumericTypes_ReturnsPrimitiveTypeSchemaWithIsNumericFlag(Type numericBuiltInType)
     {
-        TypeSchema typeSchema = Registry.GetOrCreate(numericBuiltInType);
+        TypeSchema typeSchema = Registry.GetOrCreateSchema(numericBuiltInType);
 
         Assert.NotNull(typeSchema);
         Assert.Equal(numericBuiltInType, typeSchema.Type);
@@ -37,9 +37,9 @@ public class PrimitiveTypesRegistrationTests : TestBase
     }
 
     [Fact]
-    public void TypeRegistryGetOrCreate_ForBoolType_ReturnsPrimitiveTypeSchemaWithIsBoolFlag()
+    public void TypeRegistryGetOrCreateSchema_ForBoolType_ReturnsPrimitiveTypeSchemaWithIsBoolFlag()
     {
-        TypeSchema typeSchema = Registry.GetOrCreate(typeof(bool));
+        TypeSchema typeSchema = Registry.GetOrCreateSchema(typeof(bool));
 
         Assert.NotNull(typeSchema);
         Assert.Equal(typeof(bool), typeSchema.Type);
@@ -50,11 +50,13 @@ public class PrimitiveTypesRegistrationTests : TestBase
     }
 
     [Theory]
+    #region Inline data
     [InlineData(typeof(char))]
     [InlineData(typeof(string))]
-    public void TypeRegistryGetOrCreate_ForStringTypes_ReturnsPrimitiveTypeSchemaWithIsStringFlag(Type stringBuiltInType)
+    #endregion
+    public void TypeRegistryGetOrCreateSchema_ForStringTypes_ReturnsPrimitiveTypeSchemaWithIsStringFlag(Type stringBuiltInType)
     {
-        TypeSchema typeSchema = Registry.GetOrCreate(stringBuiltInType);
+        TypeSchema typeSchema = Registry.GetOrCreateSchema(stringBuiltInType);
 
         Assert.NotNull(typeSchema);
         Assert.Equal(stringBuiltInType, typeSchema.Type);
@@ -65,9 +67,9 @@ public class PrimitiveTypesRegistrationTests : TestBase
     }
 
     [Fact]
-    public void TypeRegistryGetOrCreate_ForGuidType_ReturnsPrimitiveTypeSchemaWithIsGuidFlag()
+    public void TypeRegistryGetOrCreateSchema_ForGuidType_ReturnsPrimitiveTypeSchemaWithIsGuidFlag()
     {
-        TypeSchema typeSchema = Registry.GetOrCreate(typeof(Guid));
+        TypeSchema typeSchema = Registry.GetOrCreateSchema(typeof(Guid));
 
         Assert.NotNull(typeSchema);
         Assert.Equal(typeof(Guid), typeSchema.Type);
@@ -77,5 +79,31 @@ public class PrimitiveTypesRegistrationTests : TestBase
         Assert.True(primitiveTypeSchema.IsGuid);
     }
 
-    //ToDo Later: Add methods and tests that checks IsScanned initial value for primitive type entries
+    [Theory]
+    #region Inline data
+    [InlineData(typeof(sbyte))]
+    [InlineData(typeof(short))]
+    [InlineData(typeof(int))]
+    [InlineData(typeof(long))]
+    [InlineData(typeof(Int128))]
+    [InlineData(typeof(byte))]
+    [InlineData(typeof(ushort))]
+    [InlineData(typeof(uint))]
+    [InlineData(typeof(ulong))]
+    [InlineData(typeof(UInt128))]
+    [InlineData(typeof(float))]
+    [InlineData(typeof(double))]
+    [InlineData(typeof(decimal))]
+    [InlineData(typeof(bool))]
+    [InlineData(typeof(char))]
+    [InlineData(typeof(string))]
+    [InlineData(typeof(Guid))]
+    #endregion
+    public void TypeRegistryGetOrCreateEntry_ForPrimitiveTypes_ReturnsEntryWithPrimitiveTypeSchemaAndIsScannedFlag(Type primitiveType)
+    {
+        TypeSchemaRegistryEntry entry = Registry.GetOrCreateEntry(primitiveType);
+
+        Assert.NotNull(entry);
+        Assert.Contains(entry, Registry);
+    }
 }
