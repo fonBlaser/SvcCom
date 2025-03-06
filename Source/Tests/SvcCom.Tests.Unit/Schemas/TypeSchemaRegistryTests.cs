@@ -35,14 +35,4 @@ public class TypeSchemaRegistryTests : TestBase
         
         Assert.Same(typeSchema1, typeSchema2);
     }
-
-    [Fact]
-    public void CreateOrThrow_ThrowsError_IfTypeAlreadyAdded()
-    {
-        TypeSchemaRegistry registry = new();
-
-        registry.CreateOrThrow(typeof(string));
-
-        Assert.Throws<InvalidOperationException>(() => registry.CreateOrThrow(typeof(string)));
-    }
 }

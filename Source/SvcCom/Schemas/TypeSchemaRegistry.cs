@@ -1,4 +1,5 @@
 using System.Collections;
+using SvcCom.Utility.Extensions;
 
 namespace SvcCom.Schemas;
 
@@ -10,21 +11,27 @@ public class TypeSchemaRegistry : IEnumerable<TypeSchema>, IEnumerable<TypeSchem
     {
         TypeSchema? typeSchema = _entries.FirstOrDefault(entry => entry.Schema.Type == type)?.Schema;
 
-        if (typeSchema is null)
-        {
-            typeSchema = new TypeSchema(type);
-            _entries.Add(new TypeSchemaRegistryEntry(typeSchema));
-        }
+        if (typeSchema is not null)
+            return typeSchema;
 
+        if (type.IsPrimitive())
+            return CreateAndRegisterPrimitiveTypeSchema(type);
+
+        return CreateAndRegisterDefaultTypeSchema(type);
+    }
+
+    private TypeSchema CreateAndRegisterPrimitiveTypeSchema(Type type)
+    {
+        TypeSchema typeSchema = new PrimitiveTypeSchema(type);
+        _entries.Add(new TypeSchemaRegistryEntry(typeSchema) { IsScanned = true });
         return typeSchema;
     }
 
-    public void CreateOrThrow(Type type)
+    private TypeSchema CreateAndRegisterDefaultTypeSchema(Type type)
     {
-        if (_entries.Any(entry => entry.Schema.Type == type))
-            throw new InvalidOperationException($"Type '{type.FullName}' already added to the registry.");
-
-        _entries.Add(new TypeSchemaRegistryEntry(new TypeSchema(type)));
+        TypeSchema typeSchema = new TypeSchema(type);
+        _entries.Add(new TypeSchemaRegistryEntry(typeSchema));
+        return typeSchema;
     }
 
     IEnumerator<TypeSchemaRegistryEntry> IEnumerable<TypeSchemaRegistryEntry>.GetEnumerator()
@@ -35,19 +42,4 @@ public class TypeSchemaRegistry : IEnumerable<TypeSchema>, IEnumerable<TypeSchem
 
     IEnumerator IEnumerable.GetEnumerator()
         => GetEnumerator();
-}
-
-public class TypeSchemaRegistryEntry
-{
-    public TypeSchema Schema { get; }
-
-    public bool ArePropertiesDefined { get; internal set; }
-    public bool AreMethodsDefined { get; internal set; }
-
-    public bool IsScanned => ArePropertiesDefined && AreMethodsDefined;
-
-    public TypeSchemaRegistryEntry(TypeSchema schema)
-    {
-        Schema = schema;
-    }
 }
