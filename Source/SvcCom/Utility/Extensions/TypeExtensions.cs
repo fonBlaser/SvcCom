@@ -3,7 +3,11 @@
     internal static class TypeExtensions
     {
         public static bool IsPrimitive(this Type type)
-            => type.IsPrimitiveNumeric();
+            => type.IsPrimitiveBool()
+            || type.IsPrimitiveNumeric();
+
+        public static bool IsPrimitiveBool(this Type type)
+            => type == typeof(bool);
 
         public static bool IsPrimitiveNumeric(this Type type)
             => type == typeof(sbyte)

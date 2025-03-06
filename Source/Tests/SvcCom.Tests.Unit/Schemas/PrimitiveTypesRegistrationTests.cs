@@ -38,6 +38,19 @@ public class PrimitiveTypesRegistrationTests : TestBase
         Assert.True(primitiveTypeSchema.IsNumeric);
     }
 
+    [Fact]
+    public void TypeRegistryGetOrCreate_ForBoolType_ReturnsPrimitiveBoolTypeSchema()
+    {
+        TypeSchema typeSchema = Registry.GetOrCreate(typeof(bool));
+
+        Assert.NotNull(typeSchema);
+        Assert.Equal(typeof(bool), typeSchema.Type);
+
+        PrimitiveTypeSchema? primitiveTypeSchema = typeSchema as PrimitiveTypeSchema;
+        Assert.NotNull(primitiveTypeSchema);
+        Assert.True(primitiveTypeSchema.IsBool);
+    }
+
 
 
     //ToDo Later: Add methods and tests that checks IsScanned initial value for primitive type entries
