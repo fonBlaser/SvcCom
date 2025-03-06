@@ -2,45 +2,52 @@ using System.Collections;
 
 namespace SvcCom.Schemas;
 
-public class TypeSchemaRegistry : IEnumerable<TypeSchema>
+public class TypeSchemaRegistry : IEnumerable<TypeSchema>, IEnumerable<TypeSchemaRegistryEntry>
 {
-    private List<TypeSchema> _types = new();
+    private readonly List<TypeSchemaRegistryEntry> _entries = [];
 
     public TypeSchema GetOrCreate(Type type)
     {
-        TypeSchema? typeSchema = _types.FirstOrDefault(schema => schema.Type == type);
+        TypeSchema? typeSchema = _entries.FirstOrDefault(entry => entry.Schema.Type == type)?.Schema;
 
         if (typeSchema is null)
         {
             typeSchema = new TypeSchema(type);
-            _types.Add(typeSchema);
+            _entries.Add(new TypeSchemaRegistryEntry(typeSchema));
         }
 
         return typeSchema;
     }
-    
-    public IEnumerator<TypeSchema> GetEnumerator()
-        => _types.GetEnumerator();
-
-    IEnumerator IEnumerable.GetEnumerator()
-        => GetEnumerator();
 
     public void CreateOrThrow(Type type)
     {
-        if (_types.Any(schema => schema.Type == type))
+        if (_entries.Any(entry => entry.Schema.Type == type))
             throw new InvalidOperationException($"Type '{type.FullName}' already added to the registry.");
-        
-        _types.Add(new TypeSchema(type));
+
+        _entries.Add(new TypeSchemaRegistryEntry(new TypeSchema(type)));
     }
+
+    IEnumerator<TypeSchemaRegistryEntry> IEnumerable<TypeSchemaRegistryEntry>.GetEnumerator()
+        => _entries.GetEnumerator();
+
+    public IEnumerator<TypeSchema> GetEnumerator()
+        => _entries.Select(entry => entry.Schema).GetEnumerator();
+
+    IEnumerator IEnumerable.GetEnumerator()
+        => GetEnumerator();
 }
 
-public sealed class TypeSchema
+public class TypeSchemaRegistryEntry
 {
-    public Type Type { get; }
-    public string FullName => Type.FullName;
+    public TypeSchema Schema { get; }
 
-    public TypeSchema(Type type)
+    public bool ArePropertiesDefined { get; internal set; }
+    public bool AreMethodsDefined { get; internal set; }
+
+    public bool IsScanned => ArePropertiesDefined && AreMethodsDefined;
+
+    public TypeSchemaRegistryEntry(TypeSchema schema)
     {
-        Type = type;
+        Schema = schema;
     }
 }

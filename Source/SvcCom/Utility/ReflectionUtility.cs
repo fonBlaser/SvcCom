@@ -22,7 +22,8 @@ public static class ReflectionUtility
         if(propertyType.IsGenericType && propertyType.GetGenericTypeDefinition() == typeof(Nullable<>))
         {
             isNullable = true;
-            propertyType = Nullable.GetUnderlyingType(propertyType);
+            propertyType = Nullable.GetUnderlyingType(propertyType) 
+                           ?? throw new InvalidOperationException("Underlying type for Nullable generic is null.");
         }
         
         return new ValueDetails(isTask, isNullable, propertyType);
