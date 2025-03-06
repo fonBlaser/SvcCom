@@ -5,22 +5,18 @@ using Xunit;
 namespace SvcCom.Tests.Unit.Schemas;
 
 [Trait("Category", "Unit")]
-public class TypeSchemaRegistryTests : TestBase
+public class TypeSchemaRegistryTests : TypeSchemaRegistryTestBase
 {
     [Fact]
     public void TypeSchemaRegistry_DoesNotContainTypes_ByDefault()
     {
-        TypeSchemaRegistry registry = new();
-        
-        Assert.Empty(registry);
+        Assert.Empty(Registry);
     }
     
     [Fact]
     public void GetOrCreateSchema_ForNewType_CreatesNewTypeSchema()
     {
-        TypeSchemaRegistry registry = new();
-        
-        TypeSchema typeSchema = registry.GetOrCreateSchema(typeof(string));
+        TypeSchema typeSchema = Registry.GetOrCreateSchema(typeof(string));
         
         Assert.NotNull(typeSchema);
         Assert.Equal(typeof(string), typeSchema.Type);
@@ -29,10 +25,8 @@ public class TypeSchemaRegistryTests : TestBase
     [Fact]
     public void GetOrCreateSchema_ForExistingType_ReturnsExistingTypeSchema()
     {
-        TypeSchemaRegistry registry = new();
-        
-        TypeSchema typeSchema1 = registry.GetOrCreateSchema(typeof(string));
-        TypeSchema typeSchema2 = registry.GetOrCreateSchema(typeof(string));
+        TypeSchema typeSchema1 = Registry.GetOrCreateSchema(typeof(string));
+        TypeSchema typeSchema2 = Registry.GetOrCreateSchema(typeof(string));
         
         Assert.Same(typeSchema1, typeSchema2);
     }
@@ -40,9 +34,7 @@ public class TypeSchemaRegistryTests : TestBase
     [Fact]
     public void GetOrCreateEntry_ForNewType_CreatesNewTypeSchemaRegistryEntry()
     {
-        TypeSchemaRegistry registry = new();
-
-        TypeSchemaRegistryEntry entry = registry.GetOrCreateEntry(typeof(string));
+        TypeSchemaRegistryEntry entry = Registry.GetOrCreateEntry(typeof(string));
 
         Assert.NotNull(entry);
         Assert.Equal(typeof(string), entry.Schema.Type);
@@ -51,10 +43,8 @@ public class TypeSchemaRegistryTests : TestBase
     [Fact]
     public void GetOrCreateEntry_ForExistingType_ReturnsExistingTypeSchemaRegistryEntry()
     {
-        TypeSchemaRegistry registry = new();
-
-        TypeSchemaRegistryEntry entry1 = registry.GetOrCreateEntry(typeof(string));
-        TypeSchemaRegistryEntry entry2 = registry.GetOrCreateEntry(typeof(string));
+        TypeSchemaRegistryEntry entry1 = Registry.GetOrCreateEntry(typeof(string));
+        TypeSchemaRegistryEntry entry2 = Registry.GetOrCreateEntry(typeof(string));
 
         Assert.Same(entry1, entry2);
     }

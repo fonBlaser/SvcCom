@@ -6,10 +6,8 @@ using Xunit;
 namespace SvcCom.Tests.Unit.Schemas.Types;
 
 [Trait("Category", "Unit")]
-public class EnumsRegistrationTests : TestBase
+public class EnumsRegistrationTests : TypeSchemaRegistryTestBase
 {
-    private TypeSchemaRegistry Registry { get; } = new();
-
     [Fact]
     public void TypeRegistryGetOrCreateSchema_ForEmptyEnumType_ReturnsEnumTypeSchemaWithoutValues()
     {
@@ -37,12 +35,8 @@ public class EnumsRegistrationTests : TestBase
     }
 
     [Theory]
-    #region Inline data
-
     [InlineData(typeof(EmptyEnum))]
     [InlineData(typeof(EnumWithDifferentValues))]
-
-    #endregion
     public void TypeRegistryGetOrCreateEntry_ForBothEmptyAndFilledEnums_ReturnsEntryWithoutIsScannedFlag(Type enumType)
     {
         TypeSchemaRegistryEntry entry = Registry.GetOrCreateEntry(enumType);

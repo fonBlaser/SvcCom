@@ -30,5 +30,6 @@ public static class ReflectionUtility
     }
 
     public static PropertyInfo GetPropertyInfo(Type type, string propertyName)
-        => type.GetProperty(propertyName) ?? throw new ArgumentException($"Property {propertyName} not found on type {type.FullName}");
+        => type.GetProperty(propertyName) 
+           ?? throw new ArgumentException($"Property {propertyName} not found on type {type.FullName}");
 }

@@ -9,8 +9,9 @@ public class TypeSchema
     public TypeSchema(Type type)
     {
         Type = type;
-        FullName = type.FullName 
-                   ?? throw new InvalidOperationException("Anonymous types are not allowed: Type.FullName is null or empty.");
+        FullName = type.FullName
+                   ?? throw new InvalidOperationException(
+                       "Anonymous types are not allowed: Type.FullName is null or empty.");
         Name = type.Name;
     }
 }

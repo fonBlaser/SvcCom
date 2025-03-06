@@ -5,12 +5,9 @@ using Xunit;
 namespace SvcCom.Tests.Unit.Schemas.Types;
 
 [Trait("Category", "Unit")]
-public class PrimitiveTypesRegistrationTests : TestBase
+public class PrimitiveTypesRegistrationTests : TypeSchemaRegistryTestBase
 {
-    private TypeSchemaRegistry Registry { get; } = new();
-
     [Theory]
-    #region Inline data
     [InlineData(typeof(sbyte))]
     [InlineData(typeof(short))]
     [InlineData(typeof(int))]
@@ -24,14 +21,14 @@ public class PrimitiveTypesRegistrationTests : TestBase
     [InlineData(typeof(float))]
     [InlineData(typeof(double))]
     [InlineData(typeof(decimal))]
-    #endregion
-    public void TypeRegistryGetOrCreateSchema_ForNumericTypes_ReturnsPrimitiveTypeSchemaWithIsNumericFlag(Type numericBuiltInType)
+    public void TypeRegistryGetOrCreateSchema_ForNumericTypes_ReturnsPrimitiveTypeSchemaWithIsNumericFlag(
+        Type numericBuiltInType)
     {
         TypeSchema typeSchema = Registry.GetOrCreateSchema(numericBuiltInType);
 
         Assert.NotNull(typeSchema);
         Assert.Equal(numericBuiltInType, typeSchema.Type);
-        
+
         PrimitiveTypeSchema? primitiveTypeSchema = typeSchema as PrimitiveTypeSchema;
         Assert.NotNull(primitiveTypeSchema);
         Assert.True(primitiveTypeSchema.IsNumeric);
@@ -51,11 +48,10 @@ public class PrimitiveTypesRegistrationTests : TestBase
     }
 
     [Theory]
-    #region Inline data
     [InlineData(typeof(char))]
     [InlineData(typeof(string))]
-    #endregion
-    public void TypeRegistryGetOrCreateSchema_ForStringTypes_ReturnsPrimitiveTypeSchemaWithIsStringFlag(Type stringBuiltInType)
+    public void TypeRegistryGetOrCreateSchema_ForStringTypes_ReturnsPrimitiveTypeSchemaWithIsStringFlag(
+        Type stringBuiltInType)
     {
         TypeSchema typeSchema = Registry.GetOrCreateSchema(stringBuiltInType);
 
@@ -81,7 +77,6 @@ public class PrimitiveTypesRegistrationTests : TestBase
     }
 
     [Theory]
-    #region Inline data
     [InlineData(typeof(sbyte))]
     [InlineData(typeof(short))]
     [InlineData(typeof(int))]
@@ -99,8 +94,8 @@ public class PrimitiveTypesRegistrationTests : TestBase
     [InlineData(typeof(char))]
     [InlineData(typeof(string))]
     [InlineData(typeof(Guid))]
-    #endregion
-    public void TypeRegistryGetOrCreateEntry_ForPrimitiveTypes_ReturnsEntryWithPrimitiveTypeSchemaAndIsScannedFlag(Type primitiveType)
+    public void TypeRegistryGetOrCreateEntry_ForPrimitiveTypes_ReturnsEntryWithPrimitiveTypeSchemaAndIsScannedFlag(
+        Type primitiveType)
     {
         TypeSchemaRegistryEntry entry = Registry.GetOrCreateEntry(primitiveType);
 

@@ -9,10 +9,10 @@ public class PrimitiveTypeSchema : TypeSchema
     public bool IsString => Type.IsPrimitiveString();
     public bool IsGuid => Type.IsPrimitiveGuid();
 
-    public PrimitiveTypeSchema(Type type) 
+    public PrimitiveTypeSchema(Type type)
         : base(type)
     {
-        if(!type.IsPrimitive())
+        if (!type.IsPrimitive())
             throw new ArgumentException("Type is not primitive.", nameof(type));
     }
 }
