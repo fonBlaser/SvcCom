@@ -6,6 +6,7 @@ public class PrimitiveTypeSchema : TypeSchema
 {
     public bool IsNumeric => Type.IsPrimitiveNumeric();
     public bool IsBool => Type.IsPrimitiveBool();
+    public bool IsString => Type.IsPrimitiveString();
 
     public PrimitiveTypeSchema(Type type) 
         : base(type)

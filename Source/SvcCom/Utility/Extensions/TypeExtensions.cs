@@ -4,7 +4,8 @@
     {
         public static bool IsPrimitive(this Type type)
             => type.IsPrimitiveBool()
-            || type.IsPrimitiveNumeric();
+            || type.IsPrimitiveNumeric()
+            || type.IsPrimitiveString();
 
         public static bool IsPrimitiveBool(this Type type)
             => type == typeof(bool);
@@ -23,5 +24,9 @@
             || type == typeof(decimal)
             || type == typeof(Int128)
             || type == typeof(UInt128);
+
+        public static bool IsPrimitiveString(this Type type)
+            => type == typeof(char)
+            || type == typeof(string);
     }
 }

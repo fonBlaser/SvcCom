@@ -51,7 +51,20 @@ public class PrimitiveTypesRegistrationTests : TestBase
         Assert.True(primitiveTypeSchema.IsBool);
     }
 
+    [Theory]
+    [InlineData(typeof(char))]
+    [InlineData(typeof(string))]
+    public void TypeRegistryGetOrCreate_ForStringTypes_ReturnsPrimitiveStringTypeSchema(Type stringBuiltInType)
+    {
+        TypeSchema typeSchema = Registry.GetOrCreate(stringBuiltInType);
 
+        Assert.NotNull(typeSchema);
+        Assert.Equal(stringBuiltInType, typeSchema.Type);
+
+        PrimitiveTypeSchema? primitiveTypeSchema = typeSchema as PrimitiveTypeSchema;
+        Assert.NotNull(primitiveTypeSchema);
+        Assert.True(primitiveTypeSchema.IsString);
+    }
 
     //ToDo Later: Add methods and tests that checks IsScanned initial value for primitive type entries
 }
