@@ -5,7 +5,8 @@
         public static bool IsPrimitive(this Type type)
             => type.IsPrimitiveBool()
             || type.IsPrimitiveNumeric()
-            || type.IsPrimitiveString();
+            || type.IsPrimitiveString()
+            || type.IsPrimitiveGuid();
 
         public static bool IsPrimitiveBool(this Type type)
             => type == typeof(bool);
@@ -28,5 +29,8 @@
         public static bool IsPrimitiveString(this Type type)
             => type == typeof(char)
             || type == typeof(string);
+
+        public static bool IsPrimitiveGuid(this Type type)
+            => type == typeof(Guid);
     }
 }
