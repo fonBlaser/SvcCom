@@ -20,16 +20,16 @@ public class TypeSchemaRegistry : IEnumerable<TypeSchema>, IEnumerable<TypeSchem
         return CreateAndRegisterDefaultTypeSchema(type);
     }
 
-    private TypeSchema CreateAndRegisterPrimitiveTypeSchema(Type type)
+    private PrimitiveTypeSchema CreateAndRegisterPrimitiveTypeSchema(Type type)
     {
-        TypeSchema typeSchema = new PrimitiveTypeSchema(type);
+        PrimitiveTypeSchema typeSchema = new(type);
         _entries.Add(new TypeSchemaRegistryEntry(typeSchema) { IsScanned = true });
         return typeSchema;
     }
 
     private TypeSchema CreateAndRegisterDefaultTypeSchema(Type type)
     {
-        TypeSchema typeSchema = new TypeSchema(type);
+        TypeSchema typeSchema = new(type);
         _entries.Add(new TypeSchemaRegistryEntry(typeSchema));
         return typeSchema;
     }
