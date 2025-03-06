@@ -19,15 +19,16 @@ public class TypeSchemaRegistry : IEnumerable<TypeSchemaRegistryEntry>
 
         entry = type switch
         {
-            _ when type.IsPrimitive() => CreateAndRegisterPrimitiveTypeSchema(type),
-            _ => CreateAndRegisterDefaultTypeSchema(type)
+            _ when type.IsPrimitive() => CreatePrimitiveTypeSchema(type),
+            _ when type.IsEnum        => CreateEnumTypeSchema(type),
+            _                         => CreateDefaultTypeSchema(type)
         };
 
         _entries.Add(entry);
         return entry;
     }
 
-    private static TypeSchemaRegistryEntry CreateAndRegisterPrimitiveTypeSchema(Type type)
+    private static TypeSchemaRegistryEntry CreatePrimitiveTypeSchema(Type type)
     {
         TypeSchemaRegistryEntry entry = new(new PrimitiveTypeSchema(type))
         {
@@ -36,7 +37,10 @@ public class TypeSchemaRegistry : IEnumerable<TypeSchemaRegistryEntry>
         return entry;
     }
 
-    private static TypeSchemaRegistryEntry CreateAndRegisterDefaultTypeSchema(Type type) 
+    private static TypeSchemaRegistryEntry CreateEnumTypeSchema(Type type)
+        => new(new EnumTypeSchema(type));
+
+    private static TypeSchemaRegistryEntry CreateDefaultTypeSchema(Type type) 
         => new(new TypeSchema(type));
 
 

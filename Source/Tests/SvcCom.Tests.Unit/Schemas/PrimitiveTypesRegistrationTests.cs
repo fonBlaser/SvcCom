@@ -104,6 +104,7 @@ public class PrimitiveTypesRegistrationTests : TestBase
         TypeSchemaRegistryEntry entry = Registry.GetOrCreateEntry(primitiveType);
 
         Assert.NotNull(entry);
+        Assert.True(entry.IsScanned);
         Assert.Contains(entry, Registry);
     }
 }

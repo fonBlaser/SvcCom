@@ -1,0 +1,53 @@
+﻿using SvcCom.Schemas;
+using SvcCom.Tests.Unit._TestData.SimpleCases;
+using Xunit;
+
+namespace SvcCom.Tests.Unit.Schemas;
+
+[Trait("Category", "Unit")]
+public class EnumsRegistrationTests : TestBase
+{
+    private TypeSchemaRegistry Registry { get; } = new();
+
+    [Fact]
+    public void TypeRegistryGetOrCreateSchema_ForEmptyEnumType_ReturnsEnumTypeSchemaWithoutValues()
+    {
+        TypeSchema typeSchema = Registry.GetOrCreateSchema(typeof(EmptyEnum));
+
+        Assert.NotNull(typeSchema);
+        Assert.Equal(typeof(EmptyEnum), typeSchema.Type);
+
+        EnumTypeSchema? enumTypeSchema = typeSchema as EnumTypeSchema;
+        Assert.NotNull(enumTypeSchema);
+        Assert.Empty(enumTypeSchema.Values);
+    }
+
+    [Fact]
+    public void TypeRegistryGetOrCreateSchema_ForEnumType_ReturnsEnumTypeSchemaWithoutValues()
+    {
+        TypeSchema typeSchema = Registry.GetOrCreateSchema(typeof(EnumWithDifferentValues));
+
+        Assert.NotNull(typeSchema);
+        Assert.Equal(typeof(EnumWithDifferentValues), typeSchema.Type);
+
+        EnumTypeSchema? enumTypeSchema = typeSchema as EnumTypeSchema;
+        Assert.NotNull(enumTypeSchema);
+        Assert.Empty(enumTypeSchema.Values);
+    }
+
+    [Theory]
+    #region Inline data
+
+    [InlineData(typeof(EmptyEnum))]
+    [InlineData(typeof(EnumWithDifferentValues))]
+
+    #endregion
+    public void TypeRegistryGetOrCreateEntry_ForBothEmptyAndFilledEnums_ReturnsEntryWithoutIsScannedFlag(Type enumType)
+    {
+        TypeSchemaRegistryEntry entry = Registry.GetOrCreateEntry(enumType);
+
+        Assert.NotNull(entry);
+        Assert.Equal(enumType, entry.Schema.Type);
+        Assert.False(entry.IsScanned);
+    }
+}
