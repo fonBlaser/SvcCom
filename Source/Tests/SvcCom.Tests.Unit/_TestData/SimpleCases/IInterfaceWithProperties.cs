@@ -2,9 +2,10 @@ namespace SvcCom.Tests.Unit._TestData.SimpleCases;
 
 public interface IInterfaceWithProperties
 {
-    public bool PropertyWithPublicGetter { get; set; }
+    public bool PropertyWithPublicGetterAndSetter { get; set; }
+    public bool PropertyWithInternalSetter { get; internal set; }
     public bool PropertyWithInternalGetter { internal get; set; }
-    
+
     public bool? NullablePropertyWithPublicGetter { get; set; }
     public Version VersionPropertyWithPublicGetter { get; set; }
     
@@ -12,4 +13,8 @@ public interface IInterfaceWithProperties
     public Task<string?> TaskNullablePropertyWithPublicGetter { get; set; }
     
     public Task TaskPropertyWithPublicGetter { get; set; }
+
+    internal bool InternalBoolProperty { get; set; }
+    internal Task InternalTaskProperty { get; set; }
+    internal Task<bool> InternalGenericTaskProperty { get; set; }
 }
