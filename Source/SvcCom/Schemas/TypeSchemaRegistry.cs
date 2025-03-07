@@ -25,6 +25,7 @@ public class TypeSchemaRegistry : IEnumerable<TypeSchemaRegistryEntry>
         {
             _ when type.IsPrimitive() => CreatePrimitiveTypeSchema(type),
             _ when type.IsEnum        => CreateEnumTypeSchema(type),
+            _ when type.IsObject()    => CreateObjectTypeSchema(type),
             _                         => CreateDefaultTypeSchema(type)
         };
 
@@ -46,6 +47,9 @@ public class TypeSchemaRegistry : IEnumerable<TypeSchemaRegistryEntry>
 
     private static TypeSchemaRegistryEntry CreateDefaultTypeSchema(Type type) 
         => new(new TypeSchema(type));
+    
+    private static TypeSchemaRegistryEntry CreateObjectTypeSchema(Type type)
+        => new(new ObjectTypeSchema(type));
 
 
     #region Enumerators

@@ -1,4 +1,5 @@
-using SvcCom.Tests.Unit._TestData.SimpleCases;
+using SvcCom.Schemas.Types;
+using SvcCom.Tests.Unit._TestData.SimpleCases.EmptyObjectTypes;
 using SvcCom.Tests.Unit._TestData.SimpleCases.TypesWithDifferentVisibility;
 using Xunit;
 
@@ -35,5 +36,19 @@ public class ObjectsRegistrationTests : TypeSchemaRegistryTestBase
     public void TypeSchemaRegistryGetOrCreateSchema_ForPrivateOrInternalObject_ThrowsException(Type incorrectType)
     {
         Assert.Throws<TypeAccessException>(() => Registry.GetOrCreateSchema(incorrectType));
+    }
+
+    [Fact]
+    public void TypeSchemaRegistryGetOrCreateSchema_ForPublicInterface_ReturnsSchemaWithIsInterfaceFlag()
+    {
+        TypeSchema typeSchema = Registry.GetOrCreateSchema(typeof(IEmptyPublicInterface));
+
+        Assert.NotNull(typeSchema);
+        Assert.Equal(typeof(IEmptyPublicInterface), typeSchema.Type);
+
+        ObjectTypeSchema? objectTypeSchema = typeSchema as ObjectTypeSchema;
+        
+        Assert.NotNull(objectTypeSchema);
+        Assert.True(objectTypeSchema.IsInterface);
     }
 }

@@ -47,5 +47,12 @@
 
         public static bool IsNotAllowedForRegistrationByModifiers(this Type type)
             => !type.IsPublic;
+
+        public static bool IsObject(this Type type)
+            => type.IsInterface
+               || type.IsClass
+               || (type.IsValueType 
+                   && !type.IsPrimitive() 
+                   && !type.IsEnum);
     }
 }
