@@ -140,4 +140,44 @@ public class PropertyScannerTests : TypeSchemaScannerTestBase
         Assert.NotNull(valueSchema);
         Assert.True(valueSchema.IsVoid);
     }
+    
+    [Fact]
+    public void PropertyScannerCreateSchema_ForTaskStringProperty_ReturnsSchemaWithTaskStringReturnType()
+    {
+        PropertyInfo property 
+            = typeof(IInterfaceWithProperties)
+                .GetProperty(nameof(IInterfaceWithProperties.TaskValuePropertyWithPublicGetter))!;
+
+        PropertySchema schema = Scanner.CreateSchema(property);
+
+        Assert.False(schema.Value.IsNullable);
+        Assert.True(schema.Value.IsTask);
+        
+        PrimitiveTypeSchema? valueSchema = schema.Value.Type as PrimitiveTypeSchema;
+
+        Assert.NotNull(valueSchema);
+        Assert.True(valueSchema.IsString);
+    }
+    
+    [Fact]
+    public void PropertyScannerCreateSchema_ForTaskNullableStringProperty_ReturnsSchemaWithTaskNullableStringReturnType()
+    {
+        PropertyInfo property 
+            = typeof(IInterfaceWithProperties)
+                .GetProperty(nameof(IInterfaceWithProperties.TaskNullablePropertyWithPublicGetter))!;
+
+        PropertySchema schema = Scanner.CreateSchema(property);
+
+        Assert.False(schema.Value.IsNullable);
+        Assert.True(schema.Value.IsTask);
+        
+        PrimitiveTypeSchema? valueSchema = schema.Value.Type as PrimitiveTypeSchema;
+
+        Assert.NotNull(valueSchema);
+        Assert.True(valueSchema.IsString);
+        
+        // ToDo: Add IsUnderlyingNullable etc. - value may be like 'Task<string?>?', so there are two flags
+
+        throw new NotImplementedException();
+    }
 }
