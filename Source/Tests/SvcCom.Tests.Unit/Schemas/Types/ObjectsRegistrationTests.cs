@@ -39,7 +39,7 @@ public class ObjectsRegistrationTests : TypeSchemaRegistryTestBase
     }
 
     [Fact]
-    public void TypeSchemaRegistryGetOrCreateSchema_ForPublicInterface_ReturnsSchemaWithIsInterfaceFlag()
+    public void TypeSchemaRegistryGetOrCreateSchema_ForPublicInterface_ReturnsSchemaWithIsInterfaceAndIsReferenceFlag()
     {
         TypeSchema typeSchema = Registry.GetOrCreateSchema(typeof(IEmptyPublicInterface));
 
@@ -50,5 +50,40 @@ public class ObjectsRegistrationTests : TypeSchemaRegistryTestBase
         
         Assert.NotNull(objectTypeSchema);
         Assert.True(objectTypeSchema.IsInterface);
+        Assert.True(objectTypeSchema.IsReferenceType);
+        Assert.False(objectTypeSchema.IsValueType);
+    }
+    
+    [Theory]
+    [InlineData(typeof(EmptyPublicClass))]
+    [InlineData(typeof(EmptyPublicRecord))]
+    public void TypeSchemaRegistryGetOrCreateSchema_ForClassAndRecord_ReturnsSchemaWithIsReferenceTypeFlag(Type type)
+    {
+        TypeSchema typeSchema = Registry.GetOrCreateSchema(type);
+
+        Assert.NotNull(typeSchema);
+        Assert.Equal(type, typeSchema.Type);
+
+        ObjectTypeSchema? objectTypeSchema = typeSchema as ObjectTypeSchema;
+        
+        Assert.NotNull(objectTypeSchema);
+        Assert.True(objectTypeSchema.IsReferenceType);
+    }
+    
+    [Theory]
+    [InlineData(typeof(EmptyPublicStruct))]
+    [InlineData(typeof(EmptyPublicRecordStruct))]
+    public void TypeSchemaRegistryGetOrCreateSchema_ForStructAndRecordStruct_ReturnsSchemaWithIsValueTypeFlag(Type type)
+    {
+        TypeSchema typeSchema = Registry.GetOrCreateSchema(type);
+
+        Assert.NotNull(typeSchema);
+        Assert.Equal(type, typeSchema.Type);
+
+        ObjectTypeSchema? objectTypeSchema = typeSchema as ObjectTypeSchema;
+        
+        Assert.NotNull(objectTypeSchema);
+        Assert.False(objectTypeSchema.IsInterface);
+        Assert.False(objectTypeSchema.IsReferenceType);
     }
 }
