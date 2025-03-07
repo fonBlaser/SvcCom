@@ -10,18 +10,6 @@ namespace SvcCom.Tests.Unit.Schemas.Types;
 public class ObjectsRegistrationTests : TypeSchemaRegistryTestBase
 {
     [Theory]
-    [InlineData(typeof(void))]
-    [InlineData(typeof(object))]
-    [InlineData(typeof(Task))]
-    [InlineData(typeof(Task<>))]
-    [InlineData(typeof(ValueTask))]
-    [InlineData(typeof(ValueTask<>))]
-    public void TypeSchemaRegistryGetOrCreateSchema_ForSystemObjectTypes_ThrowsException(Type incorrectType)
-    {
-        Assert.Throws<TypeAccessException>(() => Registry.GetOrCreateSchema(incorrectType));
-    }
-    
-    [Theory]
     [InlineData(typeof(IPrivateInterface))]
     [InlineData(typeof(PrivateClass))]
     [InlineData(typeof(PrivateStruct))]
@@ -102,5 +90,14 @@ public class ObjectsRegistrationTests : TypeSchemaRegistryTestBase
         Assert.Equal(objectType, entry.Schema.Type);
         Assert.False(entry.IsScanned);
         Assert.Contains(entry, Registry);
+    }
+    
+    [Theory]
+    [InlineData(typeof(object))]
+    [InlineData(typeof(Task<>))]
+    [InlineData(typeof(ValueTask<>))]
+    public void TypeSchemaRegistryGetOrCreateSchema_ForSystemObjectTypes_ThrowsException(Type incorrectType)
+    {
+        Assert.Throws<TypeAccessException>(() => Registry.GetOrCreateSchema(incorrectType));
     }
 }

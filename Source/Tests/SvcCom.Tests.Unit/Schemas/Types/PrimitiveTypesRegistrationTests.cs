@@ -103,4 +103,36 @@ public class PrimitiveTypesRegistrationTests : TypeSchemaRegistryTestBase
         Assert.True(entry.IsScanned);
         Assert.Contains(entry, Registry);
     }
+    
+    [Fact]
+    public void TypeSchemaRegistryGetOrCreateSchema_ForVoidType_ReturnsSchemaWithIsVoidAndWithoutIsTaskFlags()
+    {
+        TypeSchema typeSchema = Registry.GetOrCreateSchema(typeof(void));
+
+        Assert.NotNull(typeSchema);
+        Assert.Equal(typeof(void), typeSchema.Type);
+
+        PrimitiveTypeSchema? objectTypeSchema = typeSchema as PrimitiveTypeSchema;
+        
+        Assert.NotNull(objectTypeSchema);
+        Assert.True(objectTypeSchema.IsVoid);
+        Assert.False(objectTypeSchema.IsTask);
+    }
+
+    [Theory]
+    [InlineData(typeof(Task))]
+    [InlineData(typeof(ValueTask))]
+    public void TypeSchemaRegistryGetOrCreateSchema_ForTaskTypes_ReturnsSchemaWithIsVoidAndIsTaskFlags(Type type)
+    {
+        TypeSchema typeSchema = Registry.GetOrCreateSchema(type);
+
+        Assert.NotNull(typeSchema);
+        Assert.Equal(type, typeSchema.Type);
+
+        PrimitiveTypeSchema? objectTypeSchema = typeSchema as PrimitiveTypeSchema;
+        
+        Assert.NotNull(objectTypeSchema);
+        Assert.True(objectTypeSchema.IsVoid);
+        Assert.True(objectTypeSchema.IsTask);
+    }
 }

@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 using SvcCom.Scanning;
+using SvcCom.Schemas.ObjectComponents;
 using SvcCom.Tests.Unit._TestData.SimpleCases;
 using Xunit;
 
@@ -44,5 +45,44 @@ public class PropertyScannerTests : TypeSchemaScannerTestBase
         List<string> propertyNames = properties.Select(p => p.Name).ToList();
 
         Assert.DoesNotContain(propertyNames, name => name == propName);
+    }
+    
+    [Fact]
+    public void PropertyScannerCreateSchema_ForPropertyWithGetSet_ReturnsCanGetAndCanSet()
+    {
+        PropertyInfo property 
+            = typeof(IInterfaceWithProperties)
+                .GetProperty(nameof(IInterfaceWithProperties.PropertyWithPublicGetterAndSetter))!;
+
+        PropertySchema schema = Scanner.CreateSchema(property);
+
+        Assert.True(schema.CanGet);
+        Assert.True(schema.CanSet);
+    }
+    
+    [Fact]
+    public void PropertyScannerCreateSchema_ForPropertyWithGetOnly_ReturnsCanGetAndNotCanSet()
+    {
+        PropertyInfo property 
+            = typeof(IInterfaceWithProperties)
+                .GetProperty(nameof(IInterfaceWithProperties.PropertyWithInternalSetter))!;
+
+        PropertySchema schema = Scanner.CreateSchema(property);
+
+        Assert.True(schema.CanGet);
+        Assert.False(schema.CanSet);
+    }
+    
+    [Fact]
+    public void PropertyScannerCreateSchema_ForPropertyWithSetOnly_ReturnsNotCanGetAndCanSet()
+    {
+        PropertyInfo property 
+            = typeof(IInterfaceWithProperties)
+                .GetProperty(nameof(IInterfaceWithProperties.PropertyWithInternalGetter))!;
+
+        PropertySchema schema = Scanner.CreateSchema(property);
+
+        Assert.False(schema.CanGet);
+        Assert.True(schema.CanSet);
     }
 }

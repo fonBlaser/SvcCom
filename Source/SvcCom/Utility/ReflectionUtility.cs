@@ -4,29 +4,25 @@ namespace SvcCom.Utility;
 
 public static class ReflectionUtility
 {
-    public static ValueDetails GetValueDetails(this PropertyInfo propertyInfo)
+    public static ValueDetails GetValueDetails(this Type type)
     {
-        if (propertyInfo is null)
-            throw new ArgumentNullException(nameof(propertyInfo));
-
-        Type propertyType = propertyInfo.PropertyType;
         bool isNullable = false;
         bool isTask = false;
         
-        if(propertyType.IsGenericType && propertyType.GetGenericTypeDefinition() == typeof(Task<>))
+        if(type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Task<>))
         {
             isTask = true;
-            propertyType = propertyType.GetGenericArguments()[0];
+            type = type.GetGenericArguments()[0];
         }
         
-        if(propertyType.IsGenericType && propertyType.GetGenericTypeDefinition() == typeof(Nullable<>))
+        if(type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>))
         {
             isNullable = true;
-            propertyType = Nullable.GetUnderlyingType(propertyType) 
+            type = Nullable.GetUnderlyingType(type) 
                            ?? throw new InvalidOperationException("Underlying type for Nullable generic is null.");
         }
         
-        return new ValueDetails(isTask, isNullable, propertyType);
+        return new ValueDetails(isTask, isNullable, type);
     }
 
     public static PropertyInfo GetPropertyInfo(Type type, string propertyName)

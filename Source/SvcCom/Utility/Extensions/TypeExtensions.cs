@@ -3,11 +3,20 @@
 internal static class TypeExtensions
 {
     public static bool IsPrimitive(this Type type)
-        => type.IsPrimitiveBool()
+        => type.IsPrimitiveVoid()
+        || type.IsPrimitiveEmptyTask()
+        || type.IsPrimitiveBool()
         || type.IsPrimitiveNumeric()
         || type.IsPrimitiveString()
         || type.IsPrimitiveGuid();
 
+    public static bool IsPrimitiveVoid(this Type type)
+        => type == typeof(void);
+    
+    public static bool IsPrimitiveEmptyTask(this Type type)
+        => type == typeof(Task)
+        || type == typeof(ValueTask);
+    
     public static bool IsPrimitiveBool(this Type type)
         => type == typeof(bool);
 
@@ -38,11 +47,8 @@ internal static class TypeExtensions
         || type.IsNotAllowedForRegistrationByModifiers();
 
     public static bool IsNotAllowedForRegistrationByType(this Type type)
-        => type == typeof(void)
-        || type == typeof(object)
-        || type == typeof(Task)
+        => type == typeof(object)
         || type == typeof(Task<>)
-        || type == typeof(ValueTask)
         || type == typeof(ValueTask<>);
 
     public static bool IsNotAllowedForRegistrationByModifiers(this Type type)
