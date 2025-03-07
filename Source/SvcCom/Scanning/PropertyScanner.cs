@@ -26,7 +26,7 @@ public class PropertyScanner : ScannerBase
         bool canSet = property.SetMethod?.IsPublic == true;
         
         ValueDetails valueDetails = property.PropertyType.GetValueDetails();
-        TypeSchema valueTypeSchema = Registry.GetOrCreateSchema(property.PropertyType);
+        TypeSchema valueTypeSchema = Registry.GetOrCreateSchema(valueDetails.ValueType);
         ValueSchema valueSchema = new ValueSchema(valueTypeSchema, valueDetails.IsNullable, valueDetails.IsTask);
         
         return new PropertySchema(property.Name, valueSchema, canGet, canSet);

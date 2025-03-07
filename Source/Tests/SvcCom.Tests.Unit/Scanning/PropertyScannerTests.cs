@@ -1,6 +1,7 @@
 ﻿using System.Reflection;
 using SvcCom.Scanning;
 using SvcCom.Schemas.ObjectComponents;
+using SvcCom.Schemas.Types;
 using SvcCom.Tests.Unit._TestData.SimpleCases;
 using Xunit;
 
@@ -84,5 +85,59 @@ public class PropertyScannerTests : TypeSchemaScannerTestBase
 
         Assert.False(schema.CanGet);
         Assert.True(schema.CanSet);
+    }
+
+    [Fact]
+    public void PropertyScannerCreateSchema_ForBoolProperty_ReturnsSchemaWithBoolReturnType()
+    {
+        PropertyInfo property 
+            = typeof(IInterfaceWithProperties)
+                .GetProperty(nameof(IInterfaceWithProperties.PropertyWithPublicGetterAndSetter))!;
+
+        PropertySchema schema = Scanner.CreateSchema(property);
+
+        Assert.False(schema.Value.IsNullable);
+        Assert.False(schema.Value.IsTask);
+        
+        PrimitiveTypeSchema? valueSchema = schema.Value.Type as PrimitiveTypeSchema;
+
+        Assert.NotNull(valueSchema);
+        Assert.True(valueSchema.IsBool);
+    }
+    
+    [Fact]
+    public void PropertyScannerCreateSchema_ForNullableBoolProperty_ReturnsSchemaWithNullableBoolReturnType()
+    {
+        PropertyInfo property 
+            = typeof(IInterfaceWithProperties)
+                .GetProperty(nameof(IInterfaceWithProperties.NullablePropertyWithPublicGetter))!;
+
+        PropertySchema schema = Scanner.CreateSchema(property);
+
+        Assert.True(schema.Value.IsNullable);
+        Assert.False(schema.Value.IsTask);
+        
+        PrimitiveTypeSchema? valueSchema = schema.Value.Type as PrimitiveTypeSchema;
+
+        Assert.NotNull(valueSchema);
+        Assert.True(valueSchema.IsBool);
+    }
+    
+    [Fact]
+    public void PropertyScannerCreateSchema_ForTaskProperty_ReturnsSchemaWithTaskReturnType()
+    {
+        PropertyInfo property 
+            = typeof(IInterfaceWithProperties)
+                .GetProperty(nameof(IInterfaceWithProperties.TaskPropertyWithPublicGetter))!;
+
+        PropertySchema schema = Scanner.CreateSchema(property);
+
+        Assert.False(schema.Value.IsNullable);
+        Assert.True(schema.Value.IsTask);
+        
+        PrimitiveTypeSchema? valueSchema = schema.Value.Type as PrimitiveTypeSchema;
+
+        Assert.NotNull(valueSchema);
+        Assert.True(valueSchema.IsVoid);
     }
 }
