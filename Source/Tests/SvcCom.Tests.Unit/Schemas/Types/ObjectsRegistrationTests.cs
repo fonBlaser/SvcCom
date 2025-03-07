@@ -1,3 +1,4 @@
+using SvcCom.Schemas;
 using SvcCom.Schemas.Types;
 using SvcCom.Tests.Unit._TestData.SimpleCases.EmptyObjectTypes;
 using SvcCom.Tests.Unit._TestData.SimpleCases.TypesWithDifferentVisibility;
@@ -85,5 +86,21 @@ public class ObjectsRegistrationTests : TypeSchemaRegistryTestBase
         Assert.NotNull(objectTypeSchema);
         Assert.False(objectTypeSchema.IsInterface);
         Assert.False(objectTypeSchema.IsReferenceType);
+    }
+    
+    [Theory]
+    [InlineData(typeof(IEmptyPublicInterface))]
+    [InlineData(typeof(EmptyPublicClass))]
+    [InlineData(typeof(EmptyPublicRecord))]
+    [InlineData(typeof(EmptyPublicStruct))]
+    [InlineData(typeof(EmptyPublicRecordStruct))]
+    public void TypeSchemaRegistryGetOrCreateEntry_ForAllPublicObjects_ReturnsEntryWithoutIsScannedFlag(Type objectType)
+    {
+        TypeSchemaRegistryEntry entry = Registry.GetOrCreateEntry(objectType);
+
+        Assert.NotNull(entry);
+        Assert.Equal(objectType, entry.Schema.Type);
+        Assert.False(entry.IsScanned);
+        Assert.Contains(entry, Registry);
     }
 }
