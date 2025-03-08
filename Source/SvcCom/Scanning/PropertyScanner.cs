@@ -4,6 +4,7 @@ using SvcCom.Schemas.ObjectComponents;
 using SvcCom.Schemas.Types;
 using SvcCom.Schemas.Values;
 using SvcCom.Utility;
+using SvcCom.Utility.Extensions;
 
 namespace SvcCom.Scanning;
 
@@ -27,8 +28,8 @@ public class PropertyScanner : ScannerBase
         
         ValueDetails valueDetails = property.PropertyType.GetValueDetails();
         TypeSchema valueTypeSchema = Registry.GetOrCreateSchema(valueDetails.ValueType);
-        ValueSchema valueSchema = new ValueSchema(valueTypeSchema, valueDetails.IsNullable, valueDetails.IsTask);
+        ValueSchema valueSchema = new(valueTypeSchema, valueDetails.IsNullable, valueDetails.IsTask);
         
-        return new PropertySchema(property.Name, valueSchema, canGet, canSet);
+        return new(property.Name, valueSchema, canGet, canSet);
     }
 }

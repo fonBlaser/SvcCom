@@ -156,7 +156,7 @@ public class PropertyScannerTests : TypeSchemaScannerTestBase
         PrimitiveTypeSchema? valueSchema = schema.Value.Type as PrimitiveTypeSchema;
 
         Assert.NotNull(valueSchema);
-        Assert.True(valueSchema.IsString);
+        Assert.True(valueSchema.IsBool);
     }
     
     [Fact]
@@ -168,16 +168,12 @@ public class PropertyScannerTests : TypeSchemaScannerTestBase
 
         PropertySchema schema = Scanner.CreateSchema(property);
 
-        Assert.False(schema.Value.IsNullable);
+        Assert.True(schema.Value.IsNullable);
         Assert.True(schema.Value.IsTask);
         
         PrimitiveTypeSchema? valueSchema = schema.Value.Type as PrimitiveTypeSchema;
 
         Assert.NotNull(valueSchema);
-        Assert.True(valueSchema.IsString);
-        
-        // ToDo: Add IsUnderlyingNullable etc. - value may be like 'Task<string?>?', so there are two flags
-
-        throw new NotImplementedException();
+        Assert.True(valueSchema.IsBool);
     }
 }

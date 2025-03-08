@@ -46,7 +46,7 @@ public class TypeSchemaRegistry : IEnumerable<TypeSchemaRegistryEntry>
         => new(new EnumTypeSchema(type));
 
     private static TypeSchemaRegistryEntry CreateDefaultTypeSchema(Type type) 
-        => new(new TypeSchema(type));
+        => new(new(type));
     
     private static TypeSchemaRegistryEntry CreateObjectTypeSchema(Type type)
         => new(new ObjectTypeSchema(type));

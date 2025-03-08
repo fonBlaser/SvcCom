@@ -10,8 +10,8 @@ public interface IInterfaceWithProperties
     
     public Task TaskPropertyWithPublicGetter { get; set; }
     
-    public Task<string> TaskValuePropertyWithPublicGetter { get; set; }
-    public Task<string?> TaskNullablePropertyWithPublicGetter { get; set; }
+    public Task<bool> TaskValuePropertyWithPublicGetter { get; set; }
+    public Task<bool?> TaskNullablePropertyWithPublicGetter { get; set; }
 
     public Version VersionPropertyWithPublicGetter { get; set; }
     

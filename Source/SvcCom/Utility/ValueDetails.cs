@@ -2,14 +2,15 @@ namespace SvcCom.Utility;
 
 public record ValueDetails
 {
-    public bool IsTask { get; }
-    public bool IsNullable { get; }
     public Type ValueType { get; }
 
-    public ValueDetails(bool isTask, bool isNullable, Type valueType)
+    public bool IsNullable { get; }
+    public bool IsTask { get; }
+
+    public ValueDetails(Type valueType, bool isNullable, bool isTask)
     {
-        IsTask = isTask;
-        IsNullable = isNullable;
         ValueType = valueType;
+        IsNullable = isNullable;
+        IsTask = isTask;
     }
 }

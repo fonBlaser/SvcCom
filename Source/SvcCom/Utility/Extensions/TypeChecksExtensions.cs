@@ -1,6 +1,6 @@
 ﻿namespace SvcCom.Utility.Extensions;
 
-internal static class TypeExtensions
+internal static class TypeChecksExtensions
 {
     public static bool IsPrimitive(this Type type)
         => type.IsPrimitiveVoid()

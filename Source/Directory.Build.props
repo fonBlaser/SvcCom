@@ -1,10 +1,10 @@
 <Project>
     <PropertyGroup>
         <AssemblyProduct>SvcCom</AssemblyProduct>
-        <FileVersion>2.2.2.67</FileVersion>
-        <AssemblyVersion>2.2.2.67</AssemblyVersion>
-        <InformationalVersion>2.2.2.67</InformationalVersion>
-        <PackageVersion>2.2.2</PackageVersion>
+        <FileVersion>2.2.3.68</FileVersion>
+        <AssemblyVersion>2.2.3.68</AssemblyVersion>
+        <InformationalVersion>2.2.3.68</InformationalVersion>
+        <PackageVersion>2.2.3</PackageVersion>
         <Authors>Eugene Yakush</Authors>
         <Company>Eugene Yakush</Company>
     </PropertyGroup>
