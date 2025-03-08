@@ -3,7 +3,6 @@ namespace SvcCom.Utility;
 public record ValueDetails
 {
     public Type ValueType { get; }
-
     public bool IsNullable { get; }
     public bool IsTask { get; }
 

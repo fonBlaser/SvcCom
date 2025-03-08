@@ -152,6 +152,7 @@ public class PropertyScannerTests : TypeSchemaScannerTestBase
 
         Assert.False(schema.Value.IsNullable);
         Assert.True(schema.Value.IsTask);
+        Assert.True(schema.Value.IsTaskResultNullable);
         
         PrimitiveTypeSchema? valueSchema = schema.Value.Type as PrimitiveTypeSchema;
 
@@ -168,8 +169,9 @@ public class PropertyScannerTests : TypeSchemaScannerTestBase
 
         PropertySchema schema = Scanner.CreateSchema(property);
 
-        Assert.True(schema.Value.IsNullable);
+        Assert.False(schema.Value.IsNullable);
         Assert.True(schema.Value.IsTask);
+        Assert.True(schema.Value.IsTaskResultNullable);
         
         PrimitiveTypeSchema? valueSchema = schema.Value.Type as PrimitiveTypeSchema;
 

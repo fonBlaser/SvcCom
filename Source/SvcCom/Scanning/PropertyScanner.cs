@@ -25,10 +25,11 @@ public class PropertyScanner : ScannerBase
     {
         bool canGet = property.GetMethod?.IsPublic == true;
         bool canSet = property.SetMethod?.IsPublic == true;
+        bool isPropertyNullable = property.IsNullable();
         
         ValueDetails valueDetails = property.PropertyType.GetValueDetails();
         TypeSchema valueTypeSchema = Registry.GetOrCreateSchema(valueDetails.ValueType);
-        ValueSchema valueSchema = new(valueTypeSchema, valueDetails.IsNullable, valueDetails.IsTask);
+        ValueSchema valueSchema = new(valueTypeSchema, isPropertyNullable, valueDetails.IsTask, valueDetails.IsNullable);
         
         return new(property.Name, valueSchema, canGet, canSet);
     }
